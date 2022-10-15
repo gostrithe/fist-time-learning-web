@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无缝连续滚动特效</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 1312px;
+            height: 150px;
+            border: 1px solid #000;
+            margin: 100px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .box ul {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 150px;
+            width: 2700px;
+        }
+
+        .box ul li {
+            float: left;
+            width: 200px;
+            height: 150px;
+            border: 1px solid red;
+            margin-right: 20px;
+            list-style: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="box" id="box">
+        <ul id="list">
+            <li>0</li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+    <script>
+        var oBox = document.getElementById('box');
+        var oList = document.getElementById('list');
+        var left = 0;
+        // 复制一份ul里面内容
+        oList.innerHTML += oList.innerHTML
+        var timer;
+        
+        // 把定时器封装成函数，想用的时候就调用
+        function move() {
+            // 为了防止叠加，可以养成先清后设的习惯（设表先关）
+            // clearInterval(timer)
+            timer = setInterval(function() {
+                left -= 2;  // 控制移动的速度
+                if (left <= -1332) left = 0;   // 每次走到复制的内容开头，立即偷换会原来的开头，欺骗眼睛实现无缝连接
+                oList.style.left = left + 'px';
+            }, 20);  // 20为一秒50帧，一秒执行五十次，每次位移为2，一秒位移五十次2px
+            
+        };
+
+        move();
+
+        oBox.onmouseenter = function() {
+            clearInterval(timer);
+        };
+
+        oBox.onmouseleave = function() {
+            move();
+        };
+    </script>
+</body>
+</html>

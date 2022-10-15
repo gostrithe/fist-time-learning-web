@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>carousel</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .box {
+            width: 400px;
+            height: 300px;
+            border: 50px solid rgb(89, 89, 230);
+            margin: 100px auto;
+            position: relative;
+            overflow: hidden;
+
+        }
+
+        .list {
+            list-style: none;  
+            height: 300px;
+            width: 5000px;
+            position: relative;
+            left: 0;
+            /* transition: all 1s ease 0s; */
+        }
+
+        .list li {
+            float: left;
+
+        }
+
+        img {
+            width: 400px;
+            height: 300px;
+        }
+
+        a {
+            width: 40px;
+            height: 70px;
+            position: absolute;
+            top: 50%;
+            margin-top: -35px;
+            left: 20px;
+            background-color: rgb(150, 237, 156);
+            border-radius: 20px;
+        }
+
+        a.rightBtn {
+            left: 340px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box" id="box">
+        <ul class="list" id="list">
+            <li><img src="2.jpg" alt=""></li>
+            <li><img src="2.jpg" alt=""></li>
+            <li><img src="2.jpg" alt=""></li>
+            <li><img src="2.jpg" alt=""></li>
+            <li><img src="2.jpg" alt=""></li>
+
+        </ul>
+        <a href="#" id="leftBtn"></a>
+        <a href="#" id="rightBtn" class="rightBtn"></a>
+    </div>
+    <script>
+        var leftBtn = document.getElementById('leftBtn');
+        var rightBtn = document.getElementById('rightBtn');
+        var list = document.getElementById('list');
+        
+        // 克隆节点，true为深度克隆
+        var cloneli = list.firstElementChild.cloneNode(true);
+        list.appendChild(cloneli);
+
+        // 标记当前图片张数
+        var index = 0;
+        // 节流锁
+        var lock = true;
+        rightBtn.onclick = function() {
+            if (!lock) return;  
+            index++;
+            if (index == 5) {   // 最后一张图片时（到克隆的图片时），
+                setTimeout(function() {    // 延迟1秒之后，瞬间变为第一张，且没有过渡，瞬间变化欺骗眼睛
+                    list.style.transition = 'none';
+                    list.style.left = '0';  // 改变位置
+                    index = 0;      // 标记重置
+                }, 1000);
+            };
+            
+            // 其他情况
+            list.style.transition = 'all 1s ease 0s';
+            list.style.left = index*-400 + 'px';
+
+            lock = false;
+            setTimeout(function() {  // 函数节流
+                lock = true;
+            }, 1000);
+        };
+
+        leftBtn.onclick = function() {
+            if (!lock) return;
+            if (index == 0) {   // 点击后判断是否为第一张图片，如果是，则瞬间变到最后一张，即克隆那张，然后瞬间执行移动函数，从最后一张移动到倒数第二张
+                list.style.transition = 'none';
+                list.style.left = '-2000px';
+                setTimeout(function() {    // 变到最后一张后，延迟器为0，瞬间执行加上过渡移动到倒数第二张，即真正的最后一张
+                    list.style.transition = 'all 1s ease 0s';
+                    index = 4;  // 修改为正确的张数，真正的最后一张
+                    list.style.left = index*-400 + 'px';  // 移动到对应张数的位置
+                }, 0);
+            } else {   // 点击后如果不是第一张，则正常移动
+                index--;    // 张数为全局变量，和上面按钮联系，直接--就行
+                list.style.transition = 'all 1s ease 0s';
+                list.style.left = index*-400 + 'px';
+            };
+
+            lock = false;
+            setTimeout(function() {
+                lock = true;
+            }, 1000);
+        };
+    </script>
+</body>
+</html>

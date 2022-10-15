@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>返回顶部</title>
+    <style>
+        body {
+            height: 2000px;
+            background-image: linear-gradient(to bottom, red, blue, green);
+
+        }
+        .box {
+            width: 70px;
+            height: 70px;
+            background-color: #fff;
+            position: fixed;
+            bottom: 50px;
+            right: 30px;
+            font-size: 25px;
+            text-align: center;
+
+            /* // 指针变小手 */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="box" id="box">返回顶部</div>
+    <script>
+        var box = document.getElementById('box');
+        var timer;
+
+        box.onclick = function() {
+            // 设表先关
+            clearInterval(timer);
+            
+            timer = setInterval(function(){
+                document.documentElement.scrollTop -= 100;
+                if(document.documentElement.scrollTop <= 0) {
+                    clearInterval(timer);
+                }
+            }, 20);
+        }
+    </script>
+</body>
+</html>

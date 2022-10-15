@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>呼吸轮播图</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        .box {
+            height: 300px;
+            width: 400px;
+            border: 40px solid #000;
+            margin: 200px auto;
+        }
+
+        .list {
+            height: 300px;
+            list-style: none;
+            position: relative;
+        }
+
+        .list li {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: all 1s ease 0s;
+
+            /* 让li都变透明，这样就不会收到绝对定位的z-index影响，导致默认后面的li在最上层 */
+            opacity: 0;     
+        }
+
+        /* 这里只让第一个li不透明，虽然他在最底层 */
+        .list li:first-child {
+            opacity: 1;
+        }
+
+        a {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: orange;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: rgb(84, 15, 15);
+            text-decoration: none;
+            top: 50%;
+            margin-top: -20px;
+            left: 20px;
+        }
+
+        a.rightBtn {
+            left: 340px;
+        }
+        img {
+            width: 400px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <ul class="list" id="list">
+            <li><img src="./组件-small01.png" ></li>
+            <li><img src="./组件-small02.png" ></li>
+            <li><img src="./组件-small03.png" ></li>
+            <li><img src="./组件-small04.png" ></li>
+            <a href="#" id="leftBtn">左</a>
+            <a href="#" class="rightBtn" id="rightBtn">右</a>
+        </ul>
+    </div>
+
+    <script>
+        var list = document.getElementById('list');
+        // 获取li的数组
+        var lis = document.getElementsByTagName('li')
+        var leftBtn = document.getElementById('leftBtn');
+        var rightBtn = document.getElementById('rightBtn');
+
+        // 表示当前那张图片的数组序号
+        var index = 0;  // 默认第一张
+
+        // 节流锁
+        var lock = true;
+        rightBtn.onclick = function() {
+            if (!lock) return;
+
+            // 让当前的那张图片透明
+            lis[index].style.opacity = '0';
+            // 然后让lis中的当前那张的下一张不透明
+            index++;
+            if (index > 3) index = 0;   // 如果点击的时候是最后一张了，最后一张透明后，让第一张不透明
+            lis[index].style.opacity = '1';
+
+            lock = false;
+            setTimeout(function() {
+                lock = true;
+            }, 1000);
+        }
+        
+        // 两个按钮的写法一致；
+        leftBtn.onclick = function() {
+            if(!lock) return;
+
+            lis[index].style.opacity = '0';
+            index--;
+            if (index < 0) index = 3;
+            lis[index].style.opacity = '1';
+
+            lock = false;
+            setTimeout(function() {
+                lock = true;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

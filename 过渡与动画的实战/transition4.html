@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        section {
+            perspective: 99999px;
+            width: 300px;
+            height: 300px;
+            margin: 100px auto;
+        }
+
+        .cube {
+            width: 300px;
+            height: 300px;
+            border: 1px solid #000;
+            position: relative;
+            perspective: 99999px;
+            /* 当盒子又是舞台又是演员的时候，盒子带着里面的p旋转
+            必须设置变形类型，保留3d，保护3d盒子背部的3d效果 */
+            transform-style: preserve-3d;
+            transform: rotateX(0) rotateY(0); 
+            transition: all 2s linear 0s;   
+        }
+        
+        section:hover .cube {
+            transform: rotateX(360deg) rotateY(360deg); 
+            
+        }
+
+        .cube p {
+            width: 300px;
+            height: 300px;
+            background-color: beige;
+            border: 1px solid red;
+            position: absolute;   
+            top: 0;
+            left: 0; 
+        }
+
+        .cube p:nth-child(1) {
+            transform: translateZ(150px);
+        }
+
+        .cube p:nth-child(2) {
+            transform: translateZ(-150px);
+        }
+
+        .cube p:nth-child(3) {
+            transform: rotateX(90deg) translateZ(150px);
+        }
+
+        .cube p:nth-child(4) {
+            transform: rotateX(-90deg) translateZ(150px);
+        }
+
+        .cube p:nth-child(5) {
+            transform: rotateY(90deg) translateZ(150px);
+        }
+
+        .cube p:nth-child(6) {
+            transform: rotateY(-90deg) translateZ(150px);
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <div class="cube">
+            <p>1</p>
+            <p>2</p>
+            <p>3</p>
+            <p>4</p>
+            <p>5</p>
+            <p>6</p>
+        </div>
+    </section>
+</body>
+</html>

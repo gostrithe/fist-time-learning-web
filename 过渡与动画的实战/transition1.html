@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+    .box {
+        width: 1200px;
+        overflow: hidden;
+        margin: 40px auto;
+    }
+
+    .box ul {
+        list-style: none;
+    }
+
+    .box ul li {
+        float: left;
+        width: 400px;
+        position: relative;
+    }
+
+    .box ul li img {
+        width: 400px;
+        height: 500px;
+        /* 给图片设置高，防止出现白边等bug */
+    }
+
+    .box ul li .info {
+        position: absolute;
+        width: 300px;
+        height: 30px;
+        line-height: 30px;
+        color: white;
+        bottom: 0;
+        padding-left: 100px;
+        background-color: rgba(0, 0, 0, .5);
+        /* 透明度设置为0，不是背景的透明度，而是整体的透明度，整个盒子透明隐藏 */
+        opacity: 0;
+        transition: opacity 1s ease 0s;
+    }
+
+    .box ul li:hover .info {
+        opacity: 1;
+    }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <ul>
+            <li>
+                <img src="Mask group6.png" alt="">
+                <div class="info">doctorJack</div>
+            </li>
+            <li>
+                <img src="Mask group6.png" alt="">
+                <div class="info">doctorJack2</div>
+            </li>
+            <li>
+                <img src="Mask group6.png" alt="">
+                <div class="info">doctorJack3</div>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
