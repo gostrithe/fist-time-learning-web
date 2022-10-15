@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOM</title>
+    <style>
+        body {
+            height: 2000px;
+        };
+    </style>
+</head>
+<body>
+    <script>
+        // 全局变量是window对象的属性
+        var a = 3;
+        console.log(window.hasOwnProperty('a'));    // true
+        console.log(window.a == 3);     // true
+        // 内置函数如setInterval()、alert()普遍是window的方法
+
+        // 窗口尺寸
+        console.log('窗口内宽（包含滚动条的宽度17px）', window.innerWidth);
+        console.log('窗口内宽（不包含滚动条）', document.documentElement.clientWidth);
+        console.log('窗口外宽（全屏时和内宽相等，不全屏时包含了浏览器外部阴影那些）', window.outerWidth);
+        
+
+        // 监听窗口的改变，resize事件
+        window.onresize = function() {
+            var root = document.documentElement; // 根
+            console.log(root.clientWidth, root.clientHeight);
+        }
+
+
+        // 页面已卷动的高度
+            // 浏览器可视窗口上面看不见的高度，px
+            // window.scrollY 和 document.documentElement.scrollTop 属性，他们两个的值是一样的
+        console.log(window.scrollY, document.documentElement.scrollTop, window.scrollY == document.documentElement.scrollTop);
+            // 但是window.scrollY是只读，而document.documentElement.scrollTop的值可以修改，从而改变卷起的高度
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;   // 兼容性写法，利用短路机制
+
+
+
+        // scroll事件监听
+        // 页面卷动（滚动条移动）事件
+        window.onscroll = function() {
+            console.log('窗口卷动了', window.scrollY);
+        };
+
+
+        // navigator对象
+        console.log('浏览器品牌', navigator.appName);
+        console.log('浏览器版本', navigator.appVersion);
+        console.log('用户代理，Use-agent', navigator.userAgent);
+        console.log('操作系统', navigator.platform);
+
+
+        // history对象
+            // history.back() 方法用于返回上次页面，回退功能，还可以使用history.go(-1)是同样的效果
+            // 超链接脚本写法
+            // href="javascript: history.back();"
+
+
+        // location对象
+            // 习惯书写为 window.location
+            // 用于按钮跳转到指定页面，和a标签作用差不多
+            // window.location = 'http://www.baidu.com'; 或 window.location.href = 'http://www.baidu.com';
+
+            // window.location.reload(true);   这个方法用于强制刷新页面
+
+            // get请求查询参数
+                // 比如网址 http://www.baidu.com/?a=1&b=2
+                // console.log(window.location.search);  // "?a=1&b=2"
+
+                
+    </script>
+</body>
+</html>

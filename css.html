@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 自定义字体 要使用时，用font-family使用  注意，并不是字库里的全部文字都有效果，只是阿里巴巴普惠字体框生成的那些字体有效果  */
+        @font-face {
+            font-family: 'webfont';     /* 定义字体名称，webfont可修改 */
+            font-display: swap;
+            src: url('//at.alicdn.com/t/webfont_i60z2l20rcq.eot');
+            /* IE9*/
+            src: url('//at.alicdn.com/t/webfont_i60z2l20rcq.eot?#iefix') format('embedded-opentype'),
+                /* IE6-IE8 */
+                url('//at.alicdn.com/t/webfont_i60z2l20rcq.woff2') format('woff2'),
+                url('//at.alicdn.com/t/webfont_i60z2l20rcq.woff') format('woff'),
+                /* chrome、firefox */
+                url('//at.alicdn.com/t/webfont_i60z2l20rcq.ttf') format('truetype'),
+                /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+                url('//at.alicdn.com/t/webfont_i60z2l20rcq.svg#庞门正道标题体2') format('svg');
+            /* iOS 4.1- */
+        }
+
+        /* 清除默认 用并集选择器替代*通配符的效率问题 */
+        body, ul, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            font-style: italic;
+        }
+
+        a:link {
+            color: black;
+        }
+
+        a:visited {
+            color: red;
+        }
+
+        a:hover {
+            color: aqua;
+        }
+
+        a:active {
+            color: blueviolet;
+        }
+
+        .fs14 {
+            font-size: 14px;
+        }
+
+        .color-red {
+            color: red;
+        }
+
+        .wys::selection {
+            background-color: greenyellow;
+            color: red;
+        }
+
+        .wys {
+            width: 302px;
+            height: 300px;
+            border: 1px solid #000;
+            text-decoration: line-through;
+            font-family: 'webfont';
+            text-indent: 2em;       /* indent为缩进，首行，   em为字符单位，中文2，英文4*/
+            line-height: 1.5;      /* 行高 1.75也是常见 */
+        }
+
+        .wys::first-letter {
+            font-size: 50px;
+        }
+
+        .wys::first-line {
+            text-decoration: underline;
+        }
+
+        div.juzhong{
+            border: 1px solid #000;
+            width: 300px;
+            height: 100px;
+            background-color: blue;
+            color: red;
+            text-align: center;
+            line-height: 100px;
+            font-size: 40px;
+            /* 盒子的水平居中 */
+            margin: 0 auto;
+        }
+
+        /* 用border画出三角形 */
+        div.sjx {
+            width: 0;
+            height: 0;
+            /* tansparent是透明色 */
+            /* 不能去掉其他三个边框，不然就没有斜线 */
+            border: 20px solid transparent;
+            border-bottom-color: grey;
+        }
+
+
+        /* 线性渐变demo  linear-gradient */
+        div.lg1 {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #000;
+            margin-bottom: 10px;
+            /* 私有前缀，面试用，工作不用手写 */
+            background-image: -webkit-linear-gradient(to right, red, blue);  /* Chrome */
+            background-image: -moz-linear-gradient(to right, red, blue);  /* Firefox */
+            background-image: -ms-linear-gradient(to right, red, blue);  /* IE,Edge */
+            background-image: -o-linear-gradient(to right, red, blue);  /* 欧朋 */
+            background-image: linear-gradient(to right, red, blue);
+        }
+        div.lg2 {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #000;
+            margin-bottom: 10px;
+            background-image: linear-gradient(45deg, red, blue);
+        }
+        div.lg3 {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #000;
+            margin-bottom: 10px;
+            background-image: linear-gradient(to right, red, yellow, orange,green, blue, purple);
+        }
+        div.lg4 {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #000;
+            margin-bottom: 10px;
+            background-image: linear-gradient(to right, red, yellow 20%, blue);
+        }
+        div.lg5 {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #000;
+            margin-bottom: 10px;
+            background-image: linear-gradient(to right, red, yellow 80%, blue);
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>777</li>
+        <li class="fs14 color-red">777</li>
+        <li>777</li>
+    </ul>
+    <a href="">AAaa</a>
+
+    <!-- 序号选择器，除了   ：fist-child 兼容IE7,其他的兼容IE9 -->
+    <!-- 属性选择器，img[alt] 选择有alt属性的img标签 
+                    [alt = ""] 精准匹配
+                    [alt ^= ""] 开头匹配
+                    [alt $= ""] 结尾匹配
+                    [alt *= ""] 存在匹配
+                    [alt |= ""] 开头-   匹配
+                    [alt ~= ""] 空格隔开的独立部分 匹配
+                    
+    -->
+
+
+    <!-- 新增伪类 
+                    :empty    选择空白的标签，有空格不算空白
+                    :focus    选择当前获得焦点的表单元素，聚焦的表单
+                    :disabled 选择无效的表单
+                    :enabled  选择有效的表单
+                    :checked  选择已经勾选的单选按钮或者复选框，例子 input:checked+span 勾选按钮后，文字变化
+                    :root     选择根元素，即<html>标签，一般用来修改滚动条，整体字号等等
+    -->
+
+
+
+    <!-- 伪元素
+                    区别伪类，伪元素为 :: 双冒号
+                    IE8兼容 : 单冒号
+
+                    必须要设置 content 属性
+                    ::before
+                    ::after
+
+                    ::selection(和伪类差不多)  用户鼠标圈选的部分，蓝色高亮
+                    ::first-letter      选中块元素的第一行第一个字母 （一般用于英文网站，首字母大写）
+                    ::first-line        选中块元素的第一行全部文字
+
+    -->
+    <p>wenziwenziwenjsdfkajwifjskdjfwaaaal</p>
+    <div class="wys">
+        文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字enziwenziwenjsdfkajwifjenziwenziwenjsdfkajwifj这一分钟,你和我在一起,因为你,我会记得那一分钟。从现在开始,我们就是一分钟的朋友。这是事实,你改变不了,因为已经完成了。
+    </div>
+
+    <!-- 权重问题，
+                    id>类>标签
+                    复杂选择器权重计算 （id个数，类名个数，标签个数）
+                       (2,1,2)  > （2,0,1)
+
+            !important  提升某个选中器里某条属性的权重，在属性后面，；分号前面书写，不过很多公司不允许使用
+    -->
+
+
+    <!-- rgba 兼容IE9 -->
+
+
+
+    <!-- 
+        文本居中问题：
+                        单行文本垂直居中：设置行高=盒子高度
+                            文本水平居中：设置text-align:center   align是对齐的意思
+     -->
+     <div class="juzhong">
+        行胜于言
+     </div>
+
+     <!-- font属性合写
+                        例子   font: italic bold 40px/1.5 "Times New Roman", "微软雅黑";
+                                font-style font-weight font-size/line-height font-family 
+    -->
+
+
+    
+
+
+
+    <!-- 
+        盒模型，
+                    width height 表示盒子 里面内容 的宽度和高度，并不是盒子的总宽高
+                                        实际可用面积，留给孩子们用的面积
+                
+                    盒子总宽度 = width + 左右padding + 左右border
+
+                    padding: 上 右 下 左;  （顺时针方向）
+
+                    margin竖直方向的塌陷现象；  上下不叠加，以大数为盒子之间距离
+                    但margin水平方向叠加！
+
+
+                    box-sizing: border-box;  表示边框盒子，此时width和height就真的表示盒子的实际宽高，padding，border变为内缩。 大量应用移动网页，pc端较少使用，兼容IE9
+
+                    img 和表单元素 为特殊的行内块 display: inline-block; 可以解决span使用padding时遮挡其他块元素，
+
+
+
+                    元素的隐藏；
+                                display: none;  元素隐藏，且放弃自己的位置，如同没写标签一样
+                                visibility: hidden;   元素隐藏不可见，不放弃自己的位置
+     -->            
+
+     <!-- 足球就是这样，生活也是这样，但生活有时候就是这么残酷，可能没有人会关心你付出过多少努力，撑得累不累，摔得疼不疼，大家只会看到最后你站在什么位置，因为成年人的世界，他就没有容易这两个字，所以哪有什么无心插柳，都是努力过后的水到渠成 -->
+
+
+     <!-- 浮动最本质功能--实现并排
+                                    脱离文档流
+    -->
+
+    <!-- 盒子没有形成BFC，没有设置高度，且内容子元素都浮动了，则该盒子无法撑起自身
+                        要兼容IE6,IE7，尽量规范编程，设置高度，        
+
+                形成BFC的方法；
+                                设置绝对定位; position: absolute;
+                                overflow: hidden;   隐藏溢出内容（不含padding）  推荐使用
+
+                                浮动；
+                                display: inline-block设置为行内块
+
+            BFC的其他作用  
+                            可以取消盒子margin垂直方向的塌陷
+                            可以阻止元素被浮动元素覆盖  （理论意义，实战无意义）
+     -->
+
+     <!-- 清除浮动(父盒子没有形成BFC,高度塌陷,造成关闭不住内部子元素浮动的问题)
+
+                    清除浮动的方法,
+                                    1让父盒子形成BFC  overflow: hidden;
+                                    2给后面的父盒子设置 clear: both; 属性，清除浮动对自己的影响，但是margin会失效
+                                    3使用::after伪元素 且给::after设置clear: both;
+                                        .box::after{
+                                            conten: '';
+                                            clear: both;
+                                            display: block;  注意一定要设置块元素
+                                        }
+                                    4制造隔墙，
+                                            在两个父盒子之间夹一个空的<div></div>,
+                                            给这个隔墙设置clear: both;但此时margin还是失效
+                                            巧妙的是，可以通过给隔墙设置高度（一般公共类），来分隔两个父盒子
+
+    -->
+
+
+
+    <!-- 
+                相对定位relative， 会在老家留坑，本质上仍然是在原来的位置，渲染的时候在新的定位的地方，相当影子
+                            不脱离标准流，文档流   一般用于微调  还可以给绝对定位作为参考系，且无视padding，以边框内侧为原点
+
+                绝对定位absolute，  脱离标准文档流      行内元素开启绝对定位后可以设置宽高
+
+                                    绝对定位盒子的垂直居中；  top: 50%;
+                                                             margin-top: -自己高度的一半;
+
+                        绝对定位压盖，遮罩问题，z-index: 无单位数字;   相当伸出屏幕的z轴，数字越大，离我们越近
+
+                固定定位fixed     永远固定在电脑屏幕 显示屏 同一位置
+                                  脱离文档流  只能以页面为参考点
+     -->
+     
+     <!-- border-radius: 50%; 边框变圆形   cursor: pointer;  鼠标为小手 -->
+    
+    <!-- 用border画出三角形 -->
+    <div class="sjx"></div>
+    
+    <!-- border-radius: 20px;   20px表示圆角的半径，半径越大，角越圆
+                                当圆直径等于正盒子宽高时，盒子是一个圆。（画圆方法）
+         border-radius: 20%;    20%为盒子边长的20%，圆角起始点，
+                                当为50%时，盒子是一个正圆或者椭圆。（推荐画圆方法）
+         border-radius：10px 20px 30px 40px;
+              顺序      左上  右上 右下 左下  （顺时针）
+            border-top-left-radius  border-top-right-radius  border-bottom-right-radius  border-bottom-left-radius
+            注意，top，bottom写在前面  
+    -->
+
+    <!--阴影
+                        inset为内部阴影，盒子内部出现阴影             用逗号隔开，可以实现多阴影重叠
+                box-shadow: inset 10px 20px 40px 50px rgba(0,0,0,.4)，2px 2px 30px red;
+                          x偏移 y偏移 模糊量 阴影延展值(向四个方向) 颜色
+                           （正方向为右下）
+     -->
+
+
+
+    <!--背景
+                    注意padding区域是有背景颜色的！ 
+            
+            背景图片（使用图片来充当背景）    图片比盒子小时，默认自动复制多张平铺
+                background-image: url();    url就是网址的意思
+
+                background-repeat: repeat-x;  只向x方向平铺
+                background-repeat: repeat-y;
+                background-repeat: no-repeat;  不平铺
+                
+                注意，背景图片是带透明度的，可以透过盒子看到body的背景
+                    解决方法  使用综合属性 background: white url();   这样就先渲染图片，再用white颜色填充透明的地方
+
+                background-size: 50px 50px; 可以设置背景图片的尺寸    兼容IE9
+                                 宽    高    也可以用50%为盒子的一半  auto为等比例
+                        特殊值   background-size: contain;   让盒子包含整张图片，no-repeat下会留白
+                                 background-size: cover;     让图片覆盖整个盒子，图片显示不全
+                            
+                background-clip: border-box; 默认  边框会盖住图片（背景）
+                背景裁切 兼容IE9 padding-box       边框不会盖住图片 （背景）
+                                 content-box       图片（背景）只显示在内容区，不含padding区域 但起点不是图片的角
+                                 解决起点方法  用background-origin: content-box;
+                
+                设置有滚动条时，图片动不动，背景固定问题   可搭配overflow-y: scroll;y方向溢出内容有滚动条
+                background-attachment: fixed;         盒子滚动条不动（不能看到大图片其他地方） ，且body滚动条不动（图片背景相当固定定位）
+                                        local         盒子滚动条动（图片跟着文字展示，能看到大图片其他地方）
+                                        scroll 默认   盒子滚动条不动（不能看到大图片其他地方）   
+
+
+                background-position: 100px 200px;   特殊值，top bottom center left right （要写两个值，顺序可互换）                     
+
+
+            CCS精灵（CSS雪碧图）；     可以减少HTTP请求数，一张图片一次
+                    使用background-position实现，注意加负号
+
+                background综合属性  
+                                    background: white url() no-repeat center center;
+    -->                         
+    <!-- 线性渐变 linear-gradient ，注意，属于背景图片background-image的属性，而不是background-color-->
+    <div class="lg1"></div>
+    <div class="lg2"></div>
+    <div class="lg3"></div>
+    <div class="lg4"></div>
+    <div class="lg5"></div>
+    <!-- 径向渐变 radial-gradient ,
+                background-image: radial-gradient(50% 50%, red, blue); 以盒子中心为渐变起始点
+    -->
+
+
+
+
+    <!--变形：
+            2D； transform变形  transformer变形金刚  rotate旋转  scale缩放 skew斜切  translate转移，移动，位移
+
+                    transform: rotate(45deg);   旋转变形，默认图片中心为原点，顺时针(绕Z轴)旋转45度
+                    transform-origin: 0 0;      改变旋转原点，为左上角
+                    transform: scale(2);        2为缩放倍数，无单位，原点默认为图片中心
+                    transform: skew(10deg, 20deg);    斜切，旋转为平行四边形，不是一刀切
+                    transform: translate(100px, 20px);   和相对定位非常像，位移变形后 老家留坑，形影分离   注意兼容IE9
+            
+            3D； 
+                    transform: rotateX(45deg) rotateY(45deg);    绕x轴，绕y轴
+                    注意    <div>         舞台 ----- 一定要给div设置perspective透视属性，perspective: 300px;  
+                                                    人眼到舞台的距离，越大越远，就像骑自行车上坡，越小越近婆越长越矮，否则没有3d效果
+                                <p> </p>  演员 ----- 设置transform属性
+                            </div>
+                    空间移动 transform: translateX(100px) translateY(100px) translateZ(100px);
+     -->
+
+
+
+
+     <!-- 过度 与 动画          
+      transition   animation 
+                                              匀速  s秒单位不能省略
+                        transition: width 1s linear 0s;
+                                过度的属性 动画时长 变化速度曲线 延迟时间（多少秒后开始）
+                             all为全部属性         可贝塞尔曲线
+
+                        小属性:   transition-property transition-duration transition-timing-function transition-delay
+
+
+
+            动画要先定义后调用
+                定义；   @keyframs dhname {
+                    from {
+                        transform: rotate(0);
+                    }
+
+                    to {
+                        transform: rotate(90deg);
+                    }
+                }
+                可定义多关键帧 用百分数替代from和to 动画执行到百分比的帧数
+
+
+                调用；   animation: dhname 1s linear 0s 3;    (和过渡很像)
+                                        可添加动画执行此数，这里3次，特殊值infinite为永远执行
+                        其他参数，alternate交替（偶数次自动逆向）   forwards向前看，不回头，（停在最后结束状态）           
+    -->                                             
+</body>     
+
+</html>

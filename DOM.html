@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        td {
+            width: 65px;
+            height: 25px;
+            border: 1px solid #000;
+        }
+        #box1 {
+            width: 400px;
+            height: 400px;
+            border: 4px solid #000;
+        }
+        #box2 {
+            width: 300px;
+            height: 300px;
+            border: 3px solid #000;
+        }
+        #box3 {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #000;
+        }
+        .gameBox {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            background-color: red;
+            left: 200px;
+            top: 200px;
+
+        }
+        .tcc {
+            width: 400px;
+            height: 200px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -100px;
+            margin-left: -200px;
+            background-color: #333;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <table id="mytable"></table>
+    <br>
+    <br>
+    <button id="gameBoxBtn">点我运动</button>
+    <br>
+    <form id="myform">
+        <p>
+            姓名：
+            <input type="text" name="nameField">
+        </p>
+        <p>
+            年龄：
+            <input type="text" name="ageField">
+        </p>
+    </form>
+    <br>
+    <br>
+    <br>
+    <div id="box1">
+        <div id="box2">
+            <div id="box3"></div>
+        </div>
+    </div>
+
+    <div class="gameBox"></div>
+    <br>
+    <br>
+    <br>
+    <input type="text" id="field">
+    <button id="btn">点我弹出弹出层</button>
+    <div class="tcc" id="tcc"></div>
+
+    <br>
+    <br>
+    <br>
+    <button id="butn">按我创建一个新列表项</button>
+    <ul id="list">
+        <li>列表项</li>
+        <li>列表项</li>
+        <li>列表项</li>
+    </ul>
+    <br>
+    <br>
+    <br>
+    <h1 id="info">0</h1>
+    <button id="beganBtn">开启定时器</button>
+    <button id="clearBtn">清除定时器</button>
+    <script>
+        // script 一般都是写在html后面，等加载完页面再执行js代码
+        // 但是也可以通过 延迟运行 的方法，写在html前面（head中）
+        //      window.onload = function() {}  即给window对象添加onload事件监听，当页面onload加载完后，执行函数
+
+        
+        // 节点的关系：
+            // 父节点.firstChild    得到第一个子节点，注意区分，选择器的伪类
+            // 父节点.childNodes    得到全部子节点
+            // 父节点.lastChild     得到最后一个子节点
+            // 子节点.parentNode    得到父节点
+            // 子节点.nextSibling   得到下一个兄弟节点，sibling是兄弟姐妹的意思
+            // 子节点.previousSibling   得到上一个兄弟节点
+
+            // 注意，文本节点也属于节点。   空白文本节点也应该是节点
+                // 排除文本节点的干扰（只考虑元素节点）
+                    // 父节点.firstElementChild     得到第一个子节点
+                    // 父节点.children              得到全部子节点
+                    // 父节点.lastElementChild      得到最后一个子节点
+                    // 子节点.parentNode            得到父节点
+                    // 子节点.nextElementSibling           得到下一个兄弟节点，sibling是兄弟姐妹的意思
+                    // 子节点.previousElementSibling       得到上一个兄弟节点
+        
+            // nodeType属性判断节点的类型
+                // 某节点.nodeType == 1     元素节点 
+                // 某节点.nodeType == 3     文本节点 
+                // 某节点.nodeType == 8     注释节点 
+                // 某节点.nodeType == 9     document节点 
+                // 某节点.nodeType == 10     DTD节点 
+                    
+
+
+        // 关于节点函数的封装：
+            // // 返回元素的所有子元素节点（兼容到IE6），类似children
+            // function getChildren(node) {
+            //     var children = [];      // 遍历所有子节点，找到元素节点推入
+            //     for (var i = 0; i < node.childNodes.length; i++) {  
+            //         if (node.childNodes[i].nodeType == 1) {
+            //             children.push(node.childNodes[i]);
+            //         }
+            //     }
+            //     return children;
+            // }
+
+            // // 返回前一个元素兄弟节点（兼容到IE6），类似previousElementSibling
+            // function getElementPreviousSibling(node) {
+            //     var o = node;
+            //     while (o.previousSibling != null) {  // 循环直到前一个节点没有了，是null
+            //         if (o.previousSibling.nodeType == 1) {
+            //             return o.previousSibling;
+            //         }
+            //         O = O.previousSibling;  // 让上一个节点成为节点，继续往前判断
+            //     }
+            //     return null;
+            // }
+
+            // // 返回元素的所有兄弟节点（新）
+            //     // 思路一，找到节点的父节点，再遍历得到所有子元素节点
+            // function getAllSibling(node) {
+            //     var parent_node = node.parentNode;
+            //     var result = [];
+            //     for (var i = 0; i < parent_node.childNodes.length; i++) {
+            //         if (parent_node.childNodes[i].nodeType == 1) {
+            //             result.push(parent_node.childNodes[i]);
+            //         }
+            //     }
+            //     return result;
+            // }
+            //     // 思路二，分别往前和往后遍历寻找前后元素兄弟节点，返回拼接数组
+            // function getAllSibling2(node) {
+            //     var prevs = [];
+            //     var nexts = [];
+            //     var o = node;
+            //     while (o.previousSibling != null) {
+            //         if (o.previousSibling.nodeType == 1) {
+            //             prevs.unshift(o.previousSibling);   // 考虑到顺序，采用往前插入unshift
+            //         }
+            //         o = o.previousSibling;
+            //     }
+            //     o = node;   // 注意这里要重置node的位置，回到原来的node，往后寻找
+            //     while (o.nextSibling != null) {
+            //         if (o.nextSibling.nodeType == 1) {
+            //             prevs.push(o.nextSibling);
+            //         }
+            //         o = o.nextSibling;
+            //     }
+            //     return prevs.concat(nexts);     // 最后合并
+            // }
+
+        
+        // 节点的创建
+            // 孤儿节点（不会在DOM树上出现，无法看见它）
+                // document.createElement('div')
+            // 孤儿节点上树的方法
+                // 使用 appendChild()或insertBefore()   insert是插入的意思
+                    // 父节点.appendChild(孤儿节点)  孤儿节点成为最后一个子节点
+                    // 父节点.insertBefore(孤儿节点，标杆节点)  将孤儿节点插入到标杆节点的前面
+        
+        
+        // 小练习
+        // var mytable = document.getElementById('mytable');
+
+        // for (var i = 0; i < 20; i++) {
+        //     var tr = document.createElement('tr');
+        //     mytable.appendChild(tr);
+        //     for (var j = 0; j < 12; j++) {
+        //         var td = document.createElement('td');
+        //         tr.appendChild(td);
+        //     }
+        // }
+
+        // 九九乘法表
+        var mytable = document.getElementById('mytable');
+
+        for (var i = 1; i < 10; i++) {
+            var tr = document.createElement('tr');
+            mytable.appendChild(tr);
+            for (var j = 1; j < i+1; j++) {
+                var td = document.createElement('td');
+                tr.appendChild(td);
+                td.innerHTML = j + '×' + i + '=' + j*i;
+            }
+        }
+
+
+        // 节点的移动
+            // 新父节点.appendChild(已经有父亲的节点);
+            // 新父节点.insertBefore(已经有父亲的节点,标杆节点);
+        // 节点的删除（只能由父亲删除孩子）
+            // 父节点.removeChild(要删除的子节点);
+        
+        // 节点的克隆(克隆出来的是孤儿节点)
+            // var 孤儿节点 = 老节点.cloneNode();      只克隆节点本身
+            // var 孤儿节点 = 老节点.cloneNode(true);  true表示采用深度克隆，克隆节点以及后代所有节点
+
+
+        // 常见的鼠标事件监听
+            // onclick      单击，按下并抬起
+            // ondblclick   双击
+            // onmousedown  鼠标按下时触发
+            // onmouseup    鼠标松开时触发 区别于onclick，可以在别的地方按下，移动到对象再松开
+            // onmousemove  鼠标在移动时
+            // onmouseenter 鼠标进入时（相似onmouseover） 区别于onmousemove，如果鼠标刚开始就在里面，则不触发
+            // onmouseleave 鼠标离开时（相似onmouseout）
+        
+        // 常见的键盘事件监听
+            // onkeypress   按下时（无法识别于系统按钮，如F1，F2，方向键，退格键）
+            // onkeydown    按下时（先于onkeypress发生，可以识别系统按钮）
+            // onkeyup      松开时
+
+        // 常见的表单事件监听
+            // onchange     用户改变域的内容时 修改完毕并失去焦点时
+            // oninput      正在修改内容
+            // onfocus      元素聚焦时
+            // onblur       失焦时  blur是模糊的意思
+
+            // onsubmit     表单form提交时
+            // onreset      表单form重置时
+        // var nameField = myform.nameField;
+        // nameField.oninput = function() {
+        //     console.log('你正在修改姓名')
+        // };
+
+        // 常见的页面事件监听
+            // onload       页面或图像完成加载时
+            // onunload     当用户退出页面时  unload是退出，卸载的意思
+
+
+
+        // 事件传播（重要）
+        var box1 = document.getElementById('box1');
+        var box2 = document.getElementById('box2');
+        var box3 = document.getElementById('box3');
+        // box1.onclick = function() {
+        //     alert('这是box1的事件监听')
+        // }
+        // box2.onclick = function() {
+        //     alert('这是box2的事件监听')
+        // }
+        // box3.onclick = function() {
+        //     alert('这是box3的事件监听')
+        // }
+        // 上面demo触发顺序为321
+        // onxxx写法只能监听冒泡阶段!
+
+        // 在DOM规定中，事件的传播是：先从外到内，然后再从内到外
+            // 从外到内为捕获阶段
+            // 从内到外为冒泡阶段
+
+            // DOM0级事件监听：只能监听冒泡阶段
+                            // oBox.onclick = function(){}''
+            // DOM2级事件监听：
+                            // oBox.addEventListener('click', function(){
+                            // }, true);    true为监听捕获阶段，false为监听冒泡阶段
+        box1.addEventListener('click', function() {
+            alert('这是box1的捕获阶段')
+        }, true);
+        box2.addEventListener('click', function() {
+            alert('这是box2的捕获阶段')
+        }, true);
+        box3.addEventListener('click', function() {
+            alert('这是box3的捕获阶段')
+        }, true);
+
+        box1.addEventListener('click', function() {
+            alert('这是box1的冒泡阶段')
+        }, false);
+        box2.addEventListener('click', function() {
+            alert('这是box2的冒泡阶段')
+        }, false);
+        box3.addEventListener('click', function() {
+            alert('这是box3的冒泡阶段')
+        }, false);
+        // 123321
+        // 最内部元素不再区分捕获和冒泡阶段，按代码书写顺序
+        // DOM0级相同事件监听会覆盖，后写的覆盖前面的
+        // DOM2级不会覆盖（包括0级）。该顺序都可以执行
+
+
+
+        // 事件对象，形参event或e
+            // 鼠标位置属性
+            // clientX          浏览器客户端为参考的鼠标位置
+            // clientY
+            // pageX            整张页面web为参考的鼠标位置
+            // pageY
+            // offsetX          某元素为参考的鼠标位置（注意，如果存在内层元素，内层元素也会有鼠标信息，以最内层为参考）
+            // offsetY
+
+            // 字符码属性e.charCode
+                            //  用于onkeypress事件中，输入字符的 字符码
+                                // 0~9 ==> 48~57
+                                // A~Z ==> 65~90
+                                // a~z ==> 97~122
+            // 键码属性e.keyCode
+                            //  用于onkeydown和onkeyup事件中，按键的 键码
+                                // 0~9 ==> 48~57
+                                // A~Z ==> 65~90    不分大小写，都是同一个键
+                                // a~z ==> 65~90
+                                // ← ↑ → ↓ ==> 37 38 39 40
+                                // 回车键 ==> 13
+                                // 空格键 ==> 32
+                // 盒子移动小案例
+                var t = 200;
+                var l = 200;
+                var gameBox = document.getElementsByClassName('gameBox')[0];
+                document.onkeydown = function(e) {
+                    e.preventDefault();
+                    switch (e.keyCode) {
+                        case 37:
+                            l -= 50;
+                            break;
+                        case 38:
+                            t -= 50;
+                            break;
+                        case 39:
+                            l += 50;
+                            break;
+                        case 40:
+                            t += 50;
+                            break;
+                    }
+                    gameBox.style.top = t + 'px';
+                    gameBox.style.left = l + 'px';
+                };
+
+
+
+            // 阻止默认事件行为
+            // e.preventDefault()方法
+                // 只能输入小写字母和数字案例
+                var ofield = document.getElementById('field');
+                ofield.onkeypress = function(e) {
+                    console.log(e.charCode);
+                    if (!(e.charCode >= 48 && e.charCode <= 57 || e.charCode >= 97 && e.charCode <= 122)) {
+                        // 阻止浏览器的默认行为，即不让他按键就显示在input框
+                        e.preventDefault();
+                    }
+                }
+                // 滚轮事件案例
+                var shuzi = 0;
+                gameBox.onmousewheel = function(e) {
+                    console.log(e.deltaY);
+                    // 阻止默认的滚动条滚动
+                    e.preventDefault();
+                    if (e.deltaY > 0) {     // 向下滚动deltaY为正
+                        shuzi--;
+                    } else {
+                        shuzi++;
+                    };
+                    gameBox.innerHTML = shuzi;
+                }
+            
+            
+            // 阻止事件继续传播下去
+            // e.stopPropagation()方法  propagation是传播的意思
+                // 案例
+                var btn = document.getElementById('btn');
+                var tcc = document.getElementById('tcc');
+                btn.onclick = function(e) {
+                    // 停止传播给document
+                    e.stopPropagation();
+                    tcc.style.display = 'block';
+                };
+                // 点击按钮的时候，事件也传播给了document
+                document.onclick = function() {
+                    tcc.style.display = 'none';
+                };
+                tcc.onclick = function(e) {
+                    // 停止传播给document
+                    e.stopPropagation();
+                }
+        
+                
+
+        // 事件委托（重要）
+            var butn = document.getElementById('butn');
+            var list = document.getElementById('list');
+            // 把多个需要监听的事件委托给，父元素或祖先元素
+            list.onclick = function(e) {
+                // target表示当前点击的元素, 如果点击到了ul但不是li，这ul整体的color都为red了
+                                        //  如果点到了li部分，意识也同时点到了ul，可以触发事件，target就是li部分变为red
+                // ，currentTarget表示绑定事件的元素ul
+                e.target.style.color = 'red';
+            }
+            butn.onclick = function() {
+                var oLi = document.createElement('li');
+                oLi.innerText = '我是新来的';
+                list.appendChild(oLi);
+            }
+            // 注意，onmouseenter不冒泡，onmouseover冒泡
+            // 不能委托不冒泡的事件给祖先元素
+
+
+
+        // 定时器（重要）（重复执行）
+        // setInterval(fun, 1000)  设置时间间隔，interval为时间间隔的意思
+        // clearInterval(timer)    清除定时器
+            // 小demo
+            var oInfo = document.getElementById('info');
+            var beganBtn = document.getElementById('beganBtn');
+            var clearBtn = document.getElementById('clearBtn');
+            
+            var a = 0;
+            var timer = null;
+            beganBtn.onclick = function() {
+                // 如果用户疯狂点击，则定时器会叠加，时间间隔会受到影响，且清除按钮失效，只能清除一次timer，
+                // 为了防止定时器叠加，每次开启定时器之前，清除上一个定时器，确保点击只开启一个定时器
+                clearInterval(timer);   
+                timer = setInterval(function(){
+                    oInfo.innerHTML = ++a;
+                }, 1000);
+            };
+            clearBtn.onclick = function() {
+                clearInterval(timer);
+            };
+        // js定时器也可以实现动画效果，不过存在很多不便与缺点，一般采用js和css结合的形式，用过渡transition实现。
+        
+        // 延时器（只执行一次，异步语句。不会阻塞程序的正常执行，异步完成后执行回调函数callback）
+        // setTimeout(fun, 2000)    两秒后执行回调函数fun，这是异步语句
+            // clearTimeout(timer)用来清除延迟器
+        
+            
+        // 函数节流  限制函数疯狂的执行
+        //   用延时器实现函数的节流
+        // 函数节流模板公式
+            var gameBoxBtn = document.getElementById('gameBoxBtn');
+            var pos = 1; // 设置初始方向为正
+
+            var lock = true;    // 设置节流锁
+
+            gameBoxBtn.onclick = function() {   // 节流函数，防止疯狂执行，反复修改运动
+
+                if (lock != true) {     // 如果锁是关着的，不给你执行
+                    return;
+                }
+
+                // 如果锁不是关着的，执行这里的核心语句
+                gameBox.style.transition = 'left 2s linear 0s';
+                if (pos == 1) {
+                    gameBox.style.left = '1200px';
+                    pos = -1;   // 运动后修改方向
+                } else {
+                    gameBox.style.left = '200px';
+                    pos = 1;    // 运动后修改方向
+                }  
+
+                // 执行完之后，再把锁关上一段时间，
+                lock = false;
+                // 使用延迟器，一段时间后再度把锁打开，
+                setTimeout(function() {
+                    lock = true; // 2秒后打开
+                }, 2000);
+            };
+
+    </script>
+</body>
+</html>

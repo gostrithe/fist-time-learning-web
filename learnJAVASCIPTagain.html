@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Uncaught SyntaxError: Invalid or unexpected token
+            // 未捕获的语法错误：不合法或错误的符号
+        // Uncaught ReferenceError: 慕课网 is not defined
+            // 未捕获的引用错误：慕课网 没有被定义
+
+        // 变量是计算机语言中能储存计算结果或能表示值抽象概念
+        // 变量不是数值本身，他们仅仅是一个用于储存数值的 容器
+
+        // 变量的合法命名： 只能由字母（区分大小写）、数字、下划线、$符组成，但不能以数字开头
+        // （标识符的命名规则，函数、类名、对象的属性也遵守）
+        // 优秀的变量命名法： 
+        //             驼峰命名法：   mathTestScore    m就像是骆驼的脑袋，T、S就像是驼峰
+        //             c风格：       math_test_score    
+
+        // 等号= 表示赋值
+
+
+        // 变量声明提升 
+        //             console.log(a);  先使用  输出undefined
+        //             var a = 12;      再定义
+        //             console.log(a);          输出 12
+        //          解释：在执行所有代码前，JS有预解析阶段，会预读所有变量的定义
+        //                  即在预解析阶段将var a 提升到当前作用域所有语句的前面，即使var a = undefined;
+        //                      注意只提升变量，但不提升值
+
+        // javascript中两大类数据类型
+        //      基本数据类型： Number、String、Boolean、Undefined和null
+        //      复杂数据类型（引用类型）： Object、Array、Function、RegExp、Date、Map、Set等等
+        //    
+        //          typeof可以检测值或者变量的类型(typeof不是函数，()可以加可以不加)
+        //                  var a = 5;
+        //                  console.log(typeof a);      number
+        //                  console.log(typeof '慕课网')      string
+                    // typeof检测null类型时，结果为object
+                    // 特殊 typeof  NaN;    number      (NaN（0/0可以得到，求不出数字可以得到）是一个值，not a number,但他是number类型)
+                                                    //  NaN 具有不自等性质，即NaN == NaN为false 且 NaN === NaN也为false
+        // 科学计数法：     3e8 表示 300000000 即3乘与10的8次方         
+
+
+        // 字符串常用的方法：
+        //            charAt()  得到指定位置字符 'abc'.charAt(0)为'a'  'abc'.charAt(3)为'' 
+
+        //            substring(a,b)  得到a到b（不包括b）的字串，substring(a)   得到a到 后面全部字符，substring(3,7)等于substring(7,3)他会自动调整大小位置，sub为子集的意思     
+        //            substr(a,n)   得到从a开始，长度为n的字串 , substr(3)等于substring(3) ,  'abcd'.substr(-2,2)得到'cd'
+        //            slice(a,b)  切片，得到a到b（不包括b）的字串，和substring很像，但参数a可以用负数，且a必须在b前面，没有自动调整位置功能，slice(7,3)得到空字符串''
+
+        //            toUpperCase()   全转为大写 
+        //            toLowerCase()   全转为小写
+
+        //            indexOf()   返回指定子串首次出现在字符串的位置，返回值为字串的首个字母位置；检索到最后没出现，则返回-1，index为序号的意思
+
+
+        // undefined有自等性
+
+
+        // null表示“空” 他是一个对象，“空对象”  ，用于销毁对象、数组，或者删除事件监听
+
+
+        // 数据类型转换：
+        //       使用Number()构造函数转为数字类型： 纯数字字符串值为数字，否则为NaN(NaN和数字比较都为false)   空字符串''和空格字符串' '为0     '1+1'为NaN
+                                             //  true为1，false为0  非0即真
+                                             //  undefined为NaN, null为0 
+                        // 使用parseInt()函数将字符串转换为整数（直接取整），parse是转换的意思      截掉第一个非数字字符串及之后的所有字符串
+                                            // parseInt('3.1我')为3    parseInt('我3.1')为NaN   主要看开头是不是数字字符串
+                                            // parseInt(3.99)等于parseInt('3.99')
+                        // 使用parseFloat()函数将字符串转为浮点数   同样是截掉，不作多余补充
+        //       使用String()构造函数转为字符串类型： 科学计数法和非十进制将转为十进制的字符串
+                        // 使用toString()方法： (7).toString()      var a = 6; a.toString()
+        //       使用Boolean()函数：  0、NaN、空字符串''、undefined、null这五个为false，其余为true
+
+
+        // 4/0为Infinity
+
+
+
+        // var a = Number(prompt('请输入第一个数字'));
+        // var b = Number(prompt('请输入第二个数字'));
+        // var sum = a + b;
+        // alert('两数相加结果为' + sum)
+
+
+
+        // 表达式与运算符（运算符与操作数构成表达式）
+        //          取余运算（求模运算）：      
+        //              11 % 4;    得3，因为11除以4余数是3 
+        //               9 % 3;    得0，因为整除。
+        //               3 % 9;    得3，因为商0，余数是3，第一个数；
+        //          数学运算有隐式转换，自动转Number()，注意+的连字符功能例外
+        //          个别浮点数运算丢失精度问题；
+                                    // 使用 .toFixed() 方法保留指定参数几位小数位数，默认初始值为0，不保留
+                                    // 如   0.1 + 0.2 == 0.30000000000000004
+                                    // (0.1 + 0.2).toFixed(1) == '0.3'  注意，这个方法给出的是字符串
+                                    // Number((0.1 + 0.2).toFixed(1)) == 0.3  还要转数字
+        //          Math对象相关方法；
+        //              Math.pow(2,3)   2的3次方，2然后乘3次
+        //              Math.sqrt(81)   9，开根号
+        //              Math.ceil()     向上取整，正方向为上，大数为上，数轴右边为上    
+        //              Math.floor()    向下取整，正数的话，和parseInt()一样
+        //          相等和全等的区别；
+        //              5 == '5';   true    相等会进行隐式转换
+        //              5 === '5';  false   全等会比较两边的类型是否相等
+        //              特殊情况:  undefined == null;  true  记住
+                            //    undefined === null; false  类型不同
+        //          判断NaN问题；
+        //              由于NaN不自等，用isNaN()判断，原理还是Number，但是NaN始终不等于别人，因为他自己都不等
+        //          JS没有连比：
+        //              3 < b < 15;    结果一定为true，因为先计算3<b为true或false，即1,0一定小于15最后为true
+        //          逻辑运算符的短路计算；
+        //              3 && 6;     得6，因为3为true，看后面6，得最后的
+        //              0 && 7;     得0，因为0位false了，不用再看后面的7，被短路了，得前面的
+        //              1 && 0;     得0，以为1位true，继续看后面的，得最后的
+        //              同样
+        //              3 || 6;     得3.因为3为true，不用再看后面的了，被短路，得前面的
+        //              0 || 7;     得7，因为0位false，看后面的，得后面的
+        //          逻辑运算的优先级：  非与或
+        //          自增与自减；    只影响自己本身，a++为先用后加，++a为先加后用，用则是影响别人
+        //          综合表达式的运算顺序；    非运算>数学运算>关系运算>逻辑运算
+
+
+
+        // var year = Number(prompt('请输入年份'));
+        // alert(year % 4 == 0 && year % 100 != 0 || year % 100 == 0 && year % 400 == 0);
+        
+        
+        // var a = Number(prompt('请输入一个数字'));
+        // if (a % 2 == 0) {
+        //     alert(a + '是一个偶数');
+        // } else {
+        //     alert(a + '是一个奇数');
+        // }
+
+        
+        // if 单行语句书写
+        // var a = Number(prompt('请输入一个数'));
+        // if (a > 5) alert('这个数大于5');
+        // if (a % 2 == 0) alert('这个数是偶数');
+        // alert('goodbye');
+
+        
+        // if-else if -else 多分支语句
+        // var score = Number(prompt('请输入成绩'));
+        // if (score >= 85) {       
+        //     alert('优秀');            由上往下测试     
+        // } else if (score >=70) {     如果上面不成立，则暗含score<85,不用再写且运算
+        //     alert('良好');
+        // } else if (score >= 60) {    一旦满足则直接跳过全部
+        //     alert('及格');
+        // } else {
+        //     alert('不及格');
+        // }
+
+
+        // var h = Number(prompt('请输入你的身高，单位为米'));
+        // var w = Number(prompt('请输入你的体重，单位为公斤'));
+        // var bmi = w / Math.pow(h, 2);
+        // alert('bmi指数为' + bmi);
+        // if (bmi >= 32) {
+        //     alert('非常肥胖');
+        // } else if (bmi >= 28){
+        //     alert('肥胖');
+        // } else if (bmi >= 24){
+        //     alert('过胖');
+        // } else if (bmi >= 18.5){
+        //     alert('正常');
+        // } else {
+        //     alert('过瘦');
+        // }
+
+
+        // 判断水仙花数
+        // var d = Number(prompt('请输入一个3位数'));
+        //     // 拆位（数学方法）
+        // var bw = parseInt(d / 100);    
+        // var sw = parseInt(d / 10) % 10;
+        // var gw = d % 10;
+       
+        // var d = prompt('请输入一个3位数');
+        
+        // if (!isNaN(d) && d >= 100 && d <= 999) {    检测输入合法，isNaN('456')为true，应该是做了隐式转换
+        //     //  拆位（字符串方法）
+        //     var bw = Number(d.charAt(0));
+        //     var sw = Number(d.charAt(1));
+        //     var gw = Number(d.charAt(2));
+
+        //     if (Math.pow(bw, 3) + Math.pow(sw, 3) + Math.pow(gw, 3) == d) {
+        //     alert('这是一个水仙花数!!!');
+        //     } else {
+        //         alert('这不是水仙花数');
+        //     }
+        // } else {
+        //     alert('请输入合法的数字')
+        // }
+        
+
+        // 游乐园门票计算
+        // var age = Number(prompt('请输入年龄'));
+        // var day = Number(prompt('请输入星期，用阿拉伯数字表示'));
+        // var price;    
+        // if (day >= 1 && day <= 5) {
+        //     if (age >= 10) {
+        //         price = 300;
+        //         alert('门票价格为' + price);
+        //     } else {
+        //         price = 140;
+        //         alert('门票价格为' + price);
+        //     }
+        // } else {
+        //     if (age >= 10) {
+        //         price = 500;
+        //         alert('门票价格为' + price);
+        //     } else {
+        //         price = 210;
+        //         alert('门票价格为' + price);
+        //     }
+        // }
+        
+        
+        // switch 语句
+        // var year = Number(prompt('请输入年份'));
+        // var month = Number(prompt('请输入一个月份'));
+        // 如果不写break则后面的case全视为匹配（就算他不匹配），直到遇到break跳出
+        // switch (month) {
+        //     case 1:
+        //     case 3:
+        //     case 5:
+        //     case 7:
+        //     case 8:
+        //     case 10:
+        //     case 12:
+        //         alert('这个月有31天');
+        //         break;
+        //     case 4:
+        //     case 6:
+        //     case 9:
+        //     case 11:
+        //         alert('这个月有30天');
+        //         break;
+        //     case 2:
+        //         if (year % 4 == 0 && year % 100 != 0 || year % 100 == 0 && year % 400 == 0) {
+        //             alert('这个月有28天');
+        //         } else {
+        //             alert('这个月有29天');
+        //         }
+        //         break;
+        //     default:
+        //         alert('请输入正确的月份');
+        // }
+
+
+        // 三元运算符
+        // var age = 24;
+        // var type = age >= 18 ? '成年人' : '未成年人';   // 注意是用冒号隔开
+        // alert(type);    // 成年人
+
+
+        // for ( i = 0; i <= 1; i += 0.2) {    
+        //     console.log(Number(i.toFixed(1)));
+        // }
+
+        // var sum = 0;
+        // for (i = 1, sum = 0; i <= 100;i++) {    // 大神的写法，把累加器sum，放到for初始条件
+        //     sum += i;
+        // }
+        // console.log(sum);
+
+        // for (i = 1; i <= 100; i++) {    // 穷举法，把情况都列出来
+        //     if (i % 3 == 1 && i % 4 == 2 && i % 5 == 3) {
+        //         console.log(i);
+        //     }
+        // }
+
+        // // while 循环，不定范围的循环
+        // var i = 0;    // 初始条件自己写在外面
+        // while (i < 100) {
+        //     i++;      // 让条件趋于不成立
+        //     console.log(i);
+        // }
+
+        // var i = 1;
+        // var sum = 0;
+        // while (i <= 100) {
+        //     sum += i;
+        //     i++;
+        // }
+        // console.log(sum);
+
+        // // 寻找最小的满足n的平方>456789的整数n（这里我们并不能知道n的具体范围，此时用while循环）
+        // var n = 1;
+        // while (Math.pow(n, 2) <= 456789) {
+        //     n++;   
+        // }
+        // console.log(n);
+        // 
+        // 死循环（技术）写法
+        // var n = 1;
+        // while (true) {      // 用while (true) 直接进入死循环，然后用break跳出
+        //     if (n * n > 456789) {
+        //         console.log(n);
+        //         break;
+        //     }
+        //     n++;
+        // }
+        
+        
+        // var n = 0;
+        // var sum = 0;
+        // while (sum < 500) {
+        //     n++;        // 注意循环体，第一次循环，一根；
+        //     sum += n;   // 第一次循环开始累加
+        //     console.log('第 ' + n + ' 天: 小白兔这天拔了 ' + n + '根胡萝卜，加起来一共拔了'+ sum + ' 根胡萝卜，目标为500根')
+        // }
+        // console.log('一共需要 ' + n + ' 天，才能达到目标')
+        // 
+        // 死循环写法（技术）
+        // var n = 0;
+        // var sum = 0;
+        // while (true) {
+        //     n++;
+        //     sum += n;
+        //     if (sum >= 500) {
+        //         console.log(n);
+        //         break;
+        //     }
+        // }
+        
+
+
+        // continue用于跳过循环中的一次迭代。
+        // break则是直接结束循环。
+
+
+        // do-while为后测试循环，先do，意思是循环体一定会至少执行do一次，后while测试。
+        
+        // Math.random() 随机数函数，得到0~1之间一个浮点数。
+                // 得到[a, b]闭区间的整数，公式
+                // parseInt(Math.random() * (b - a + 1)) + a
+        
+        // // do-while 案例
+        // do {
+        //     var dx = parseInt(Math.random() * (4 - -4 + 1)) + -4;
+        //     var dy = parseInt(Math.random() * (4 - -4 + 1)) + -4;
+        // } while (dx == 0 && dy == 0)    // 如果do执行后dx，dy恰巧都为0，则再来一次，保证不会出现全为0的情况
+        // console.log(dx, dy);
+
+
+
+        // // while算法小案例，猜数字游戏
+        // var answer = parseInt(Math.random() * (99 - 2 + 1)) + 2;
+        // var a = 1;
+        // var b = 100;
+        // while (true) {
+        //     var user_answer = Number(prompt('请输入'+ a + '~' + b + '之间一个整数'));
+        //     if (user_answer >= b || user_answer <= a) {
+        //         alert('请输入范围内的数字');
+        //         continue;
+        //     }
+
+        //     if (user_answer > answer) {
+        //         alert('输入的数大了');
+        //         b = user_answer;
+        //     } else if (user_answer < answer) {
+        //         alert('输入的数小了');
+        //         a = user_answer;
+        //     }else {
+        //         alert('恭喜你，答对了！正确答案就是' + answer);
+        //         break;
+        //     }
+        // }
+
+
+
+        // var n = Number(prompt('请输入数字n'));
+        //     for (var i = 2, sum = 0; i <= n; i++) {
+        //         sum += (i + 1) / i; 
+        //     }
+        //     alert(sum);
+
+        // var n = Number(prompt('请输入数字n'));
+        // for (var i = n, result = 1; i >= 1; i--) {      // 注意，累乘器初始值为1
+        //     result *= i
+        // }
+        // alert(result);
+
+        // // 大厂面试题； 用莱布尼茨级数公式计算出圆周率
+        // var n = Number(prompt('请输入数字n'));
+        // var item = 1;
+        // var sum = 0;
+        // // // 我的垃圾代码
+        // // for (i = 1; i <= n; i++) {
+        // //     for (j = 1; j <= i; j++) {
+        // //         item *= j / (2 * j + 1);     我这里是求出了每一项，然后加进去，然后初始化item，继续求
+        // //     }                                太傻了
+        // //     sum += item;
+        // //     item = 1;
+        // // }
+        // // // 这才是好的思路
+        // for (i = 1; i <= n; i++) {
+        //     item *= i / (2 * i + 1);    // 直接在原来基础上乘多一点东西，变成新项，然后加这项
+        //     sum += item;
+        // }
+        // var ans = (sum + 1) * 2;
+        // alert('圆周率为' + ans);
+        
+
+        // // 穷举法寻找全部的水仙花数
+        // var bw, sw, gw;
+        // for (var i = 100; i < 1000; i++) {
+        //     bw = i.toString().charAt(0);
+        //     sw = i.toString().charAt(1);
+        //     gw = i.toString().charAt(2);
+        //     if (Math.pow(bw, 3) + Math.pow(sw, 3) + Math.pow(gw, 3) == i) {
+        //         console.log(i);
+        //     }
+        // }
+
+            
+        // // 求100以内的所有质数
+        // // 我的想了很久的代码
+        // for (var i = 2; i <= 100; i++) {    // 外层遍历每一个数字
+        //     var n = 1;      // 让这个数字默认是质数
+        //     for (j = 2; j < i; j++) {       // 内层，判断数字是否可约
+        //         if (i % j == 0) {           // 如果可约，则他不是质数，修改n的值
+        //             n = 0;
+        //             break;                  // 只要有一次可约，立马跳出内层的for循环
+        //         }
+        //     }
+        //     if (n == 1) {                   // 这里保证输出的是 是质数的i
+        //         console.log(i);           
+        //     }
+        // }
+
+        // // continue label 知识点写法
+        // outer: for (var i = 2; i <= 100; i++) {
+        //     for (var j = 2; j < i; j++) {
+        //         if (i % j == 0) {
+        //             // continue;   // continue是跳出当前循环的迭代，但是，我想直接放弃这个数字，即跳出外层的for循环
+        //             continue outer;     // 所以这里先给外层for加一个laber，标题为outer，然后continue outer，即可以跳出外层的for
+        //         }
+        //     }
+        //     console.log(i);     // 所以来到这条语句的只有质数了
+        // }
+
+
+        // // 鸡兔同笼问题（35头，94足）
+        // // 穷举法暴力搭配
+        // for (var i = 0; i <= 35; i++) {     // 鸡的数量有i只
+        //     for (var j = 0; j <= 35; j++) {      // 兔的数量j
+        //         if (i * 2 + j * 4 == 94 && i + j == 35) {      // 判断条件
+        //             console.log('鸡有' + i + '只' + '兔有' + j + '只');
+        //         }
+        //     }
+        // }
+        // // 优化了算法
+        // for (var i = 0, j = 35; i <= 35; i++) {
+        //     j = 35 - i;
+        //     if (i * 2 + j * 4 == 94) {      
+        //         console.log('鸡有' + i + '只' + '兔有' + j + '只');
+        //     }
+        // }
+
+
+
+        // 数组Array
+
+            // 下标0开始，（-1不是倒数的项）下标越界不会报错，返回undefined
+            // 数组里面最后一个逗号会被省略。arr = [1, 2, , , ,]这里数组有五个逗号，由于最后一个逗号被省略，就是四个逗号隔开5项。长度为5。
+            // 判断数组用 Array.isArray([1, 2, 3]) 返回值为true就是数组（兼容到IE8）。而typeof检查数组是object。
+
+            // 数组的头尾操作方法
+                // .push()  在尾部插入新（多）项。              （直接改变原数组）
+                // .pop()   删除尾部的项。返回值为该项的值      （直接改变原数组）
+                // .unshift() 在头部插入新（多）项。            （直接改变原数组）
+                // .shift()   删除头部的项。返回值为该项的值。shift是弹出的意思     （直接改变原数组）
+
+            // .splice()方法        （直接改变原数组）
+                // arr.splice(a, n, 'A', 'B', 'C') 表示切掉原数组arr里面从下标a开始（准确点为a前面空间，包括a会被切除），长度为n的切除，然后把后面ABC插入。
+                // 巧妙的是，n可以为0，达到直接插入的目的，不删除某项
+                // 也可以不插入，达到纯删除某片段或某项的目的，
+                // 返回值为被删除项构成的数组,当不删除时为空数组[]
+            
+            // .slice() 切片，得到子数组。注意，slice并不会改变原数组，而是返回一个新的数组
+                // arr.slice(a, b) 表示切片下标a开始，到下标b但不包含b
+                    // 参数b可以省略 表示切片下标a开始，到数组结束
+                    // 也可以写负数,如-1最后项
+
+            // .join() 方法，将数组转为字符串
+                // [1, 2, 3].join()  等于  [1, 2, 3].toString()  得到一个字符串 '1,2,3' 默认用逗号间隔每一项的字符串
+                // [1, 2, 3].join('')  得'123'   [1, 2, 3].join(' ') 得'1 2 3'
+
+                // 互逆方法 .split() 将字符串转为数字
+                    // 'abc'.split('') 表示用空字符串分隔，形成数组的每一项 得到['a', 'b', 'c']
+                    // 'a-b-c'.split('-')   用字符串里面的-作为分隔，形成数组的每一项  得到 ['a', 'b', 'c']
+
+                // 字符串也可以像数组一样访问和遍历
+                    // 'ABCD'[0] 等于 'ABCD'.charAt(0) 得到 'A'
+            
+            // .concat() 方法，用来连接合并多个数组
+                // var arr = arr1.concat(arr1, arr2, ...) 合并数组并返回新数组，注意，arr1并不会被改变。
+
+            // .reverse() 方法，将数组全部项 顺序置反   （直接改变原数组）
+                // '我爱你'.split('').reverse().join('') 得到 '你爱我'
+
+            // .indexOf('22') 方法   表示字符串'22'首次出现的下标是多少，返回-1则该数组里面没有这一项
+            // .includes('22') 方法  表示该数组包不包含字符串'22'，返回布尔值。
+
+
+
+        // // 求数组的总和、平均数
+        // var arr = [1, 2, 3, 4, 5, 6, 7];
+        // for (var i = 0, sum = 0; i < arr.length; i++) {
+        //     sum += arr[i];
+        // }
+        // var avg = sum / arr.length;
+        // console.log(sum, avg);
+        // // 求数组的最大值、最小值
+        // var arr= [23, 1235, 46, 13, 7, 432, -5];
+        // for (var i = 0, max = arr[0], min = arr[0]; i <= arr.length - 1; i++) {     // 以数组的第一项为初始值。
+        //     if (arr[i] >= max) { 
+        //         max = arr[i];
+        //     } 
+        //     if (arr[i] <= min) {
+        //         min = arr[i];
+        //     }
+        // }
+        // console.log(max, min);
+
+
+
+        // // 数组去重问题
+        // // 思路：
+        //     // 先准备一个空数组，用来存放去重后的项。遍历数组，判断数组里面的项是否存在准备的数组中，如果没有，则推入这一项。
+        // var arr = [1, 2, 7, 7, 7, 3, 3, 5, 2, 4, 6];
+        // var target_arr = [];        // 目标数组
+        // for (var i = 0; i < arr.length; i++) {
+        //     if (!target_arr.includes(arr[i])) {
+        //         target_arr.push(arr[i]);
+        //     }
+        // }
+        // console.log(arr, target_arr);       // 得到原数组 和 去重后的目标数组
+
+
+
+        // // 数组随机样本
+        // var arr = [1, 8, 3, 4, 5, 2, 0];
+        // var sub_arr = [];       // 先准备一个空数组，用于收集随机项
+        // for (var i = 0; i < 3; i++) {       // 循环3次，意思每一次找一个随机项，找3次
+        //     var n = parseInt(Math.random() * arr.length);   // 数组里下标的随机数
+        //     sub_arr.push(arr[n]);                           // 将随机项推入子数组
+        //     arr.splice(n, 1);                               // 将推入的项删除，防止下一次还随机到一样的项
+        // }
+        // console.log(arr, sub_arr);
+
+
+
+        // // 冒泡排序（经典）
+        // var arr = [6, 2, 9, 3, 8, 1];
+        //     // 长度为n的数组，需要n-1趟，一共比较 n（n-1）/2 次 ，等差数列求和
+        // for (var i = 1; i < arr.length; i++) {      // 每一趟
+        //     for (var j = 0; j < arr.length - i; j++) {      // 每一次比较
+        //         if (arr[j] > arr[j + 1]) {         // 这里我的循环是，由前往后，冒泡大的数。同样思路可以由后往前，冒泡小的数
+        //             var temp = arr[j + 1];      // 引入临时变量temp。
+        //             arr[j + 1] = arr[j];
+        //             arr[j] = temp;
+        //         }
+        //         // console.log(arr);   // 每一次比较的结果
+        //     }   
+        //     console.log(arr);   // 每一趟的结果
+        // }
+
+
+        
+        // // 二维数组。 (即数组里面存放数组)
+        // var matrix = [[11, 12, 13], [21, 22, 23], [31, 32, 33]];    // 长度是3，类似3行
+        // for (var i = 0; i < matrix.length; i++) {
+        //     for (var j = 0; j < 3; j++) {
+        //         console.log(matrix[i][j]);      // 遍历每一个数
+        //     }
+        // }
+
+
+
+        // // 浅复制。（引用类型的浅克隆，通过遍历克隆第一层，如果引用类型里面还有引用类型，则还是藕断丝连，参半克隆失败。用递归可以实现深复制。）
+        //     var arr = [1, 2, 3];
+        //     var result = [];
+        //     for (var i = 0; i < arr.length; i++) {
+        //         result.push(arr[i]);
+        //     }
+        //     console.log(arr, result, arr == result);    // false，复制成功，两个不同的地址，复制了同样的内容。而不是，共用同一个地址，那样就是完完全全同样的东西，两个变量指向同一东西
+            
+
+        
+        // 函数
+            // 函数表达式的写法(匿名函数)     var fun = function () {}   这样不会产生函数声明提升，因为这只是变量fun = undefined提升
+
+            // 函数声明提升（和变量声明提升类似）   可以先调用后定义，函数可以执行。因为预解析阶段会将函数整体提升。  注意区别变量提升var a = undefined
+                // 函数会优先提升
+
+            // // 案例，计算a到b的整数和
+            // function sum(a, b) {
+            //     for (var i = a, s = 0; i <= b; i++) {
+            //         s += i;
+            //     }
+            //     console.log(a + '到' + b + '的整数和为' + s);
+            // }
+            // sum(1, 10);
+            // sum(5, 12);
+            // sum(14, 35);
+
+            // arguments 是参数的意思
+                // 所有的实参（用户输入的）都会被存放在arguments类数组对象中，他和数组类似，只是不能调用数组的方法
+            
+            // function chackEven(a) {
+            //     if (a % 2 == 0) return true;
+            //     return false;
+            // }                            // 不用写else了，因为遇到return就退出了，
+                                  
+            
+
+            // // 寻找喇叭花数（abc = a! + b! + c!）
+            //     function jiecheng(n) {      // 封装阶乘factorial 是阶乘的意思
+            //         for (var i = 1, result = 1; i <= n; i++) {
+            //             result *= i;
+            //         }
+            //         return result;
+            //     }
+            //     for (var i = 100; i <= 999; i++) {
+            //         var i_str = i.toString();
+            //         var bw = Number(i_str[0]);
+            //         var sw = Number(i_str[1]);
+            //         var gw = Number(i_str[2]);
+            //         if (i == jiecheng(bw) + jiecheng(sw) + jiecheng(gw)) {
+            //            console.log(i);
+            //         }
+            //     }
+
+
+
+            // // .sort()  是JavaScript的一个内置方法，用来排序数组(正向或者负向)。
+            //             // 注意的是，他的参数为一个函数。
+            
+            //     var arr = [2, 5, 1, 3, 4];
+            //     // arr.sort(function (a, b) {      // 这里a表示靠前的数，b表示靠后的数
+            //     //     if (a > b) return 1;        // 前面的数大于后面，则调换位置。从小到大排序(立即改变原数组)
+            //     //     return -1;                  // 否则不调换
+            //     // });
+            //     // 也可以这样写
+            //     arr.sort(function (a, b) {
+            //         // return a - b;                  // 前面大于后面，返回整数，正向排序，从小到大
+            //         return b - a;                  // 负数，反向
+            //     })
+            //     console.log(arr); 
+            
+            
+
+            // // 函数的递归(自己调用自己)    用递归求n的阶乘
+            // function factorial(n) {
+            //     if (n == 1) return 1;       // 递归的出口
+            //     return n * factorial(n - 1);
+            // }
+
+
+
+            // // 斐波那契数列fib     1,1,2,3,5,8..
+            // function shulie(n) {
+            //     if (n == 0 || n == 1) return 1;
+            //     return shulie(n - 2) + shulie(n - 1);
+            // }
+            
+
+
+            // // 用递归思想实现数组的深克隆（浅克隆的递归）
+            // var arr = [1, 2, 3, [4, 5]];
+            // function deepClone(arr) {   // 传入一个数组，返回一个数组
+            //     var result = [];        // 每次遇到一个数组，就会退出然后递归，意思是，每一次递归，每一次碰到数组，就会创建一个空数组。注意每一次递归完都要把结果数组push进上一层的result数组中！！！
+            //     for (var i = 0; i < arr.length; i++) {  // 遍历数组的每一项
+            //         if (Array.isArray(arr[i])) {    // 如果这一项又是一个数组，则进入递归，继续复制
+            //             result.push(deepClone(arr[i]));     // 内层数组的递归
+            //         } else {                                // 每层返回一个数组。将内层的数组push进外层的数组。
+            //             result.push(arr[i]);
+            //         }
+            //     }
+            //     return result;
+            // }
+            // console.log(deepClone(arr)[3] == arr[3]);   // false 则深克隆成功
+
+
+
+            // 可以在函数内修改 全局变量 的值
+                // 如果局部变量和全局变量同名，函数会遮蔽全局变量。在函数内使用局部，函数外使用全局
+            // // 函数内部的变量声明提升情况
+            // var a = 10;         // 全局变量
+            // function fun() {    // 函数内局部变量a和全局变量a同名，这时，函数遮蔽了全局变量a。
+            //                     // 这里函数内部也存在变量声明提升。   var a = undefined；
+            //     a++;            // undefined加1，为NaN。 这里 a = NaN
+            //     var a = 5;      // 重新为a赋值5。
+            //     console.log(a); // 输出a为5。
+            // }
+            // fun();
+            // console.log(a);     // 全局a为10。
+            // 形参也是函数内部的局部变量
+
+            // 函数内部可以嵌套函数，此时形成 作用域链
+                // 使用变量时，从当前层出发向上寻找。找最近的。直到找到为止。
+
+            // 不加var的赋值。 a = 3； a将会是一个全局变量
+
+
+
+            // 闭包（重点）closure
+                // 什么是闭包？每次创建函数时，都会创建闭包。函数和定义函数时所处的环境（数据，变量等）的组合，封闭打包。当函数被拿到外面（换一个地方）执行时，闭包有着记忆性。
+                // function fun() {            // 这个函数里面就形成了一个闭包
+                //     var name = 'jack';      // innerFun函数定义时所处环境的变量。
+                //     function innerFun() {   // 这里创建了innerFun函数，函数本身和他定义时所处的环境会形成闭包。
+                //         alert(name);
+                //     }
+                //     return innerFun;        // 调用fun函数时，返回innerFun函数
+                // }
+                // // var name = 'JJ'         // 如果这里定义一个全局变量的name，inn();输出的值还是jack，因为闭包里面的同名name才是最近的，也相当是一种对全局变量的遮蔽吧。
+                // var inn = fun();        // 将返回的innerFun函数赋值给inn。这是inn也是一个函数
+                // inn();     // 输出jack  // 调用inn函数。相当将innerFun函数拿到外面来执行。按道理。拿出来的innerFun函数，会找不到name的定义。但有趣的是，他会记着他当时在内部时定义的环境，所以，他会找到闭包里面的name，也就是jack。
+                
+                
+                // 闭包小案例(利用闭包的记忆性)
+                // function createCheckTem(standardTemp) {    // 调用这个函数时，生成对应的一个标准体温
+                //     function checkTemp(n) {        // 内层函数形成闭包，记忆外层的标准体温，作为自己本身的条件判断
+                //         if (n <= standardTemp) {
+                //             alert('你的体温正常');
+                //         } else {
+                //             alert('你的体温偏高');
+                //         }
+                //     }
+                //     return checkTemp;       // 返回内层闭包，作为判断不同标准下体温是否正常的函数
+                // }
+                // var checkTemp_A = createCheckTem(37.1)    // checkTemp_A 就是内部函数，且标准体温为37.1
+                // var checkTemp_B = createCheckTem(37.2)    // checkTemp_B 就是内部函数，且标准体温为37.3
+                // checkTemp_A(37.2);  // 判断用户体温37.2与37.1比较
+                // checkTemp_B(37.2);  // 判断用户体温37.2与37.2比较
+
+
+
+                // 使用闭包模拟私有变量（保护变量，使其无法直接进行操作）
+                // function fun() {
+                //     var a = 0;      // 这里的局部变量a，在外面是找不到的，很私有，只在函数内部
+                //     return {        // 通过闭包，返回对象，记忆a，调用对象里面的函数就a进行操作
+                //         getA: function() {
+                //             return a;
+                //         },
+                //         add: function() {
+                //             a++;
+                //         },
+                //         pow: function() {
+                //             a *= 2;
+                //         }
+                //     }
+                // }
+                // var obj = fun();    // 得到对象，因为闭包也得到了a
+                // console.log(obj.getA());
+                // obj.add();
+                // obj.pow();
+
+
+                // 当然，也不能滥用闭包，可能导致网页性能问题，和内存泄漏
+
+                // 闭包一道面试题
+                // function addCount(){
+                //     var count = 0;
+                //     return function() {
+                //         count = count + 1;
+                //         console.log(count);
+                //     };
+                // }
+                // // 注意这里，fun1和fun2是两个不相关的函数，但由于闭包，他们的里面的count初始都为0
+                // var fun1 = addCount();
+                // var fun2 = addCount();
+                // fun1();     // 输出1
+                // fun2();     // 输出1
+                // fun2();     // 输出2
+                // fun1();     // 输出2
+            
+                
+
+            // IIFE 立即调用函数
+                // 通过使用()包住函数转为表达式，后面再接()立即执行函数
+    </script> 
+</body>
+</html>

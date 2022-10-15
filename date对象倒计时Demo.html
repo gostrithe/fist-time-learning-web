@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>倒计时demo</title>
+</head>
+<body>
+    <h1>距离孙怡的生日还有</h1>
+    <h2 id="info"></h2>
+    <script>        
+        var targetTime = new Date('2023-05-16');
+
+        setInterval(function() {
+            var now = new Date();
+            var diff = targetTime - now;
+
+            // 天   一分钟60s 一小时3600s 一天24*3600s 
+            var days = parseInt(diff / (1000 * 60 * 60 * 24));
+            // 小时     取余，剩下部分的总毫秒
+            var hours = parseInt(diff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+            // 分钟     取余，剩下部分的总毫秒
+            var minutes = parseInt(diff % (1000 * 60 * 60 * 24) % (1000 * 60 * 60) / (1000 * 60));
+                // 或者这种写法？ parseInt(diff % (1000 * 60 * 60) / (1000 * 60));
+            // 秒       取余，剩下部分的总毫秒
+            var seconds = parseInt(diff % (1000 * 60 * 60 * 24) % (1000 * 60 * 60) % (1000 * 60) / 1000);
+
+            var info = document.getElementById('info');
+            info.innerText = days + '天' + hours + '小时' + minutes + '分钟' + seconds + '秒';
+        }, 1000)
+    </script>
+</body>
+</html>

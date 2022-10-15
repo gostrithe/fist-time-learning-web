@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js面向对象</title>
+</head>
+
+<body>
+    <script>
+        /*
+            对象属性的访问：
+                如果属性名即key为字符串，则访问时必须使用   对象.[字符串]   
+                属性名命名不规范的时候就使用字符串引起来。
+        
+            属性的删除：
+                delete obj.a;
+
+            
+            对象的遍历；
+                var obj = {
+                    a: 11,
+                    b: 22,
+                    c: 88
+                };
+
+                使用for...in...循环
+                for (var k in obj) {    访问属性为变量的时候必须使用 对象.[变量名]
+                    console.log('对象的属性' + k + '的值是' + obj[k]);
+                };
+
+            同一个对象才会相等。
+            
+            --------------------------------------------------------------------
+
+            对象的浅克隆：
+                var obj1 = {
+                    a: 1,
+                    b: 2,
+                    c: [44, 55,66]
+                };
+                var obj2 = {};
+
+                for (var k in obj1) {
+                    obj2[k] = obj1[k];
+                }
+
+            (递归实现)对象的深度克隆：
+            var obj1 = {
+                a: 1,
+                b: 2,
+                c: [33, 34, {m: 55, n: 66, p: [77, 88]}]
+            };
+            
+            // 遍历每一项，每一项的每一项，然后浅克隆，递归实现深克隆，最后返回结果数组。
+            function deepClone(o) {    // 因为数组和对象的遍历有点不同，所有才判断区分开
+                if (Array.isArray(o)) {     // 数组的类型检查也是object，数组必须放前面判断
+                    // 数组
+                    var result = [];
+                    for (var i = 0; i < o.length; i++) {
+                        result.push(deepClone(o[i]));   
+                    };
+                } else if (typeof o == 'object') {
+                    // 对象
+                    var result = {};
+                    for(var k in o) {
+                        result[k] = deepClone(o[k]);
+                    };
+                } else {
+                    // 基本类型
+                    var result = o;
+                };
+                return result;
+            };
+            var obj2 = deepClone(obj1);
+            console.log(obj1, obj2);
+
+            --------------------------------------------------------------------
+
+            函数的上下文
+            this
+
+                函数上下文this由函数调用时候决定，定义时候并不能知道this指代的是什么
+                谁打点调用函数，this===谁
+                var obj = {
+                    a: 2,
+                    b: 4,
+                    fn: function() {
+                        console.log(this.a);
+                    }
+                };
+
+                console.log(obj.fn());    // obj.调用，所以 this === obj
+
+                var fn = obj.fn;            单独把函数提出去了，再调用
+                fn()                    // 直接调用，相当与 window.fn() 因为全局变量都是window的属性，函数fn也是，所以 this === window
+                                        // 结果会输出undefined，因为调用函数时，this.a就相当于window.a相当于 var a;
+
+
+                数组或类数组对象枚举出函数进行调用，this === 数组或类数组
+                数组[下标]();
+                var arr = ['a', 'b', 'c', function(){console.log(this[0])}];
+                arr[3]();   此时上下文为arr数组
+
+                类数组对象：所有键名为自然数序列(从0开始)，且有length属性的 对象。 如参数列表arguments
+                function fun() {
+                    arguments[3](); 传入的第四个参数为函数，调用这个函数，上下文为类数组对象arguments
+                };
+                fun('a', 'b', 'c', function(){console.log(this[2])});   调用函数fun()并传入4个参数
+
+
+                IIFE立即执行函数的上下文，this === window
+                (function () {})();     也相当于，window.(函数)(调用)
+                var a = 1;
+                var obj = {
+                    a: 2, 
+                    fun: (function () {     这是一个IIFE立即执行函数，立即执行
+                        var a = this.a;     this.a === window.a  var a = 1；
+                        return function () {    返回一个函数，键fun的值为一个函数，并且与上面局部变量a形成闭包
+                            console.log(a + this.a);
+                        }
+                    })
+                }
+
+                obj.fun(); 调用obj的fun方法，函数上下文this === obj，又由于闭包，所以console.log(1(局部变量的a的值) + 2(obj.a的值))
+
+
+                延时器、定时器调用函数，上下文this === window
+                    setInterval(函数, 时间);    setInterval是window的方法，也相当于直接调用一个函数
+                var obj = {
+                    a: 1,
+                    b: 2,
+                    fun: function () {
+                        console.log(this.a + this.b);
+                    }
+                }
+                var a = 3;
+                var b = 4;
+
+                setTimeout(obj.fun, 2000);  定时器调用函数。7
+                setInterval(function () {
+                    obj.fun();  在定时器里面，obj打点调用函数，this === obj
+                }, 2000);
+                
+
+                事件处理函数的上下文是绑定事件的DOM元素
+                DOM元素.onclick = function () {};   this === DOM元素
+                function setColorToRed () {
+                    // 备份上下文（常用技术）
+                    var self = this;    // 让this === box的box，存在self里面
+                    setTimeout(function() {
+                        // this.style.backgroundColor = 'red';  函数setColorToRed里面，定时器调用函数，this === window。
+                        self.style.backgroundColor = 'red';     // 这时就达到我们的目的，self === 事件处理函数上下文this，也就是self === DOM元素。
+                    }, 2000);
+                };
+                var box = document.getElementById('box');
+
+                box.onclick = setColorToRed;    DOM元素打点调用函数setColorToRed，里面的this === box
+                
+
+                指定函数的任意上下文:
+                    函数.call(上下文);
+                    函数.apply(上下文);
+                    区别在于，在对函数传参数时候，
+                        函数.call(上下文, a, b);
+                        函数.apply(上下文, [a, b]);   // apply参数用数组传入，方便用arguments类数组对象直接传入对应各个参数
+            
+            ----------------------------
+            
+            用new操作符调用函数(四步走)：
+            new fun();
+                1. 函数体内自动创建一个空对象{}
+                2. 函数的上下文指向这个空对象，即this === {}
+                3. 函数体内语句会执行
+                4. 函数会自动返回上下文对象，即使没有return
+
+                例：
+                    function fun() {    四步走
+                        // 1. 自动创建 {}
+                        this.a = 3;    // 2. 上下文指向空对象，this === {}
+                        this.b = 4;    // 2. 上下文指向空对象，this === {}
+                        // 3. 执行语句，往空对象中添加属性 {a: 3, b: 4}
+                        // 4. 返回这个对象
+                    }
+
+                    var obj = new fun();    使用new操作符调用函数，送一个对象。obj = {a: 3, b: 4}
+                    console.log(obj);
+
+
+            构造函数：
+                理解为构造对象的函数
+                注意以new调用的函数才是构造函数，任何函数都可以是构造函数，一般习惯构造函数名称首字母大写
+
+                var xiaoming = new People('xiaoming', 'man');   构造函数完成对象的初始化
+
+
+            类：
+                js是‘基于对象’的语言，并不是真正的‘面向对象’语言，构造函数可以看做成面向对象的类
+                如 People构造函数 可以表示这类人，什么人？拥有某些相同属性的人，但属性的值并不是确定的。人都有名字，但每个人的名字又可以不同。
+
+                而new出来的对象，叫做实例，实际的例子。具有具体的属性值。并不是抽象的。
+
+                由构造函数创建实例的过程叫做实例化。
+
+            --------------
+
+            prototype属性               prototype是原型的意思   constructor是构造函数、构造器的意思
+
+                每个函数都有一个prototype属性，函数.prototype是一个对象。这个对象有一个constructor属性，这个属性指回函数本身。
+                console.log(typeof fun.prototype)   // object
+                console.log(fun.prototype.constructor === fun)  // true
+              
+            
+            构造函数.prototype对象是实例的原型
+                实例xiaoming.__proto__  === 构造函数.prototype对象
+
+
+            原型链查找：
+                xiaoming.自己没有的属性     当实例打点调用自己没有的属性时，会顺着原型链，即顺着__proto__去寻找这个属性，知道找到为止。或者都找不到。
+            
+            
+            hasOwnProperty()方法：
+                用来检测对象是否自身真正拥有某属性   xiaoming.hasOwnProperty('某属性名') 返回布尔值，假如该属性在原型上，则不是自己真正拥有的，返回false。
+                拓展：in 关键字
+                    '属性名' in 对象   检测对象是否能访问到某属性，该属性在原型上也能访问。
+            
+            
+            把构造函数的方法写在原型上：
+                那么所有实例调用这个方法都为内存中的同一个函数。
+
+
+            原型链的终点：
+                原型链的终点为Object.prototype
+                因为构造函数.prototype也是一个对象，所有对象是Object的实例，所以构造函数.prototype.__proto__ === Object.prototype
+                console.log(xiaoming.__proto__.__proto__ === Object.prototype)  // true
+                同理，所有的数组都是Array的实例。
+            
+                
+            继承：
+                通过原型链实现类（构造函数）的（方法的）继承：
+                // 父类People
+                function People(name, age) {
+                    this.name = name;
+                    this.age = age;
+                };
+
+                // 将父类的方法写在prototype上
+                People.prototype.sleep = function sleep() {
+                    console.log('到点睡觉了zzz')
+                };
+
+                // 子类Student
+                function Student(name, age) {
+                    this.name = name;
+                    this.age = age;
+                };
+
+
+                ************
+                // 关键语句
+                // 将父类的某个实例作为子类的原型，这个实例可以是空对象。
+                // 那么子类实例的原型__proto__就是父类的这个实例，而子类原型的原型就是父类的原型。
+                // 这条语句把父类和子类联系了起来，使得子类的实例可以顺着原型链找到父类的方法。
+                Student.prototype = new People();
+                ************
+
+
+                // 将子类的方法写在prototype上
+                Student.prototype.study = function study() {
+                    alert('是时候学习了！');
+                };
+
+                var jack = new Student('jack', 22);
+
+                jack.study();
+                jack.sleep();
+
+
+            面向对象的实质：
+                定义不同的类，让类的实例进行工作。
+
+            
+            --------------
+
+            包装类：
+                Number()、String()和Boolean()的实例都是object，包装后的值为Number {777}、String {'jack'}等
+                                                              本身的值存放在PrimitiveValue属性中。这个属性是不能打点访问的，相当于隐藏的属性。
+                new出来的基本类型值虽然是包装后的object对象，但也是可以进行正常的运算。
+                包装类的目的就是为了让基本类型值可以调用对应构造函数的prototype上的方法。                                            
+
+
+            Math对象的一些方法：
+                Math.round(数字) 将一个数字四舍五入为整数的方法
+                    四舍五入到小数点后两位：
+                        Math.round(数字 * 100) / 100
+                Math.max(a, b, c)和Math.min(a, b, c) 取参数列表中的最大最小值
+                    取数组中的最大值：
+                        利用apply方法把数组转为参数列表零散值。
+                        Math.max.apply(null, [a, b, c])     // 指定上下文为null
+
+                        ES6写法：
+                        Math.max(...arr)    // 用...拆分数组为零散值
+                Math.random() 得到0~1之间的小数。得不到0和1。
+                    得到[a, b]区间内的随机整数，包括a和b(公式如下)；
+                    parseInt(Math.random() * (b - a + 1)) + a
+                    1. Math.random()                            // 0~1之间的小数
+                        补充parseInt(Math.random() * 10),取整可以得到[0, 9]的整数。
+
+                    2. Math.random() * (b - a + 1)              // 0~(b - a + 1)之间的小数
+                    3. parseInt(Math.random() * (b - a + 1))    // 取整得到[0, (b - a)]的整数
+                    4. parseInt(Math.random() * (b - a + 1)) + a// 得到[a, b]的整数
+
+            
+            Date日期对象：
+                new Date()
+                    Thu Jul 21 2022 16:14:52 GMT+0800 (GMT+08:00)   // 这是对象object！
+                
+                注意，Date(2022, 6, 21)和Date('2022-07-21')表示的都是7月21这一天。
+                new Date(2022, 6, 21);      // 月份从0开始              
+                    Thu Jul 21 2022 00:00:00 GMT+0800 (GMT+08:00)
+                new Date('2022-07-21');     // 月份和天数必须是两位，把0补上
+                    Thu Jul 21 2022 08:00:00 GMT+0800 (GMT+08:00)   // 区别上面，在于，时间那里显示了时区08:00:00。
+                
+                常见的一些方法：
+                    getDate()       // 得到日期 1~31
+                    getDay()        // 得到星期 0~6 ，0为星期天，每个星期的第一天
+                    getMonth()      // 得到月份 0~11 ， 0是第一个月，1月
+                    getFullYear()   // 得到年份
+                    getHours()      // 得到小时数 0~23 ， 0是第一个小小时
+                    getMinutes()    // 得到分钟数 0~59 ,  0是第一分钟
+                    getSeconds()    // 得到秒数 0~59 ， 0是第一秒
+
+
+                ******
+                时间戳（1970年1月1日零点整距离某时刻的毫秒数）：
+                    将date对象转为时间戳：
+                        new Date().getTime()    // date对象打点调用getTime()方法
+                            1658392338472       // 精确到毫秒
+                        Date.parse(new Date())  // 把date对象传入Date.parse(日期对象)方法中
+                            1658392397000       // 表示为毫秒，但是精确到秒，后三位是000
+                    
+                    将时间戳转回date对象：
+                        var dd = new Date(1658392338472);   // 把时间戳作为参数传给Date构造函数即可
+
+                    补充，两个date对象相减得到时间戳的毫秒差。
+
+
+            
+            --------------------------------
+            
+            继承的几种方式：
+                1. 通过原型链实现继承(line 241)
+
+                2. 借助构造函数技术，伪造对象，也称位经典继承。
+                    原理：
+                        在子类构造函数的内部调用超类构造函数。同时使用call()方法指定上下文。
+                        
+                        子类继承父类的属性。
+                        function People(name, age, sex) {   
+                            this.name = name;
+                            this.age = age;
+                            this.sex = sex;
+                        }   
+                        
+                        function Student(name, age, sex, school, id) {
+                            // People(name, age, sex);  如果直接在子类内部调用父类构造函数，此时父类里面上下文this === window 
+                            People.call(this, name, age, sex);  // 通过调用call或apply方法，将子类内部的this（也就是子类的实例对象）指定到父类构造函数中，此时父类里面上下文this === 子类实例对象
+                            this.school = school;
+                            this.id = id;
+                        }
+
+                        var jack = new Student('jack', 18, '男', 'GDOU', 201919992);
+                        console.log(jack);
+
+                3. 组合继承
+                        将1.和2.技术组合到一起，组合继承，也叫作伪经典继承，是最常用的继承模式。
+
+                        组合继承也有缺点，无论什么情况下，都会调用两次父类构造函数。
+
+                        function People(name, age) {
+                            this.name = name;
+                            this.age = age;
+                        }
+
+                        // 父类方法写在原型上
+                        People.prototype.sleep = function () {
+                            console.log(this.name + '正在睡觉zzz');
+                        }
+
+                        function Student(name, age, school) {
+                            // 第一次调用父类构造函数
+                            People.call(this, name, age);   // 运用2.技术，继承父类内部的属性
+                            this.school = school;
+                        }
+
+                        // 将子类的原型修改为父类的实例。
+                                        // 第二次调用父类构造函数
+                        Student.prototype = new People();   // 运用1.技术，继承父类的原型上的方法。
+
+                        var jack = new Student('jack', 22, '广东海洋大学')
+                        console.log(jack);
+                        jack.sleep();
+
+
+                4. 原型式继承：
+                    不用创建构造函数，而是利用现有的对象实现继承。
+
+                    Object.create(指定的对象)方法（IE9以上兼容）：
+                        可以根据指定的对象为原型创建出新对象。
+                        var obj2 = Object.create(obj1);     // obj1为已经存在的对象，obj2将会被创建出来
+                        obj2.__proto__ === obj1       
+                        这样，obj2就可以通过原型链查找，继承了obj1对象内部的属性和方法
+
+                        拓展(第二个参数，在创建obj2时，往里面添加属性，自身的内部属性会覆盖同名的原型链上其他地方的属性)：
+                        var obj2 = Object.create(obj1, {
+                            补充新属性的属性名：{
+                                value: 属性值
+                            }，
+                            属性名：{
+                                value: 属性值
+                            }
+                        })；
+
+                    由于不需要书写构造函数，所以也不纯在类的继承，而是，对象与对象之间的继承。
+
+
+                    *************************
+                    Object.create()兼容写法：
+                        面试常考。道格拉斯·克罗克福德写的一个函数，非常巧妙。
+                        函数的功能：
+                            创建一个新对象，以o为原型。
+
+                        function object(o, oo) {    // 普通的函数封装
+                            function F() {}     // 创建一个构造函数，用来生成原型和返回对象。
+                            F.prototype = o;    // 令构造函数以o对象为原型
+                            var tg = new F();     // 返回一个构造函数的实例对象，这个对象的原型__proto__ === o对象
+
+                            // 加码，写入第二个参数
+                            for (var i in oo) {    
+                                // console.log(i);  
+                                // console.log(oo[i].value);   
+                                tg[i] = oo[i].value;
+                            };
+
+                            return tg;
+                        }
+
+                        // 加码，写入第二个参数
+                        var ooj = {
+                            a: {
+                                value: 77
+                            },
+                            b: {
+                                value: 666
+                            }
+                        };
+
+                        var obj1 = {
+                            a: 222,
+                            fun: function() {
+                                console.log('我是obj1的内部方法')
+                            }
+                        }
+
+                        var obj2 = object(obj1, ooj);
+
+                        console.log(obj2);
+                        console.log(obj2.__proto__ === obj1);
+                        obj2.fun(); 
+
+                
+                5. 寄生式继承：
+                    编写一个函数，传入一个对象o，以o为原型生成一个新对象p，同时给p添加上一下预置新方法。
+                    返回的这个新对象就好像寄生于对象o，且有预置的新方法。
+                    
+                    var o1 = {
+                        name: 'jack',
+                        age: 12,
+                        sex: '男'
+                    };
+
+                    function f(o) {
+                        // 以o为原型，创建新对象p   // 寄生于属性
+                        var p = Object.create(o);   
+
+                        // 补充方法     // 补充了方法营养
+                        p.sayHello = function () {
+                            console.log('大家好，我是' + this.name);
+                        }
+
+                        return p;   // 返回一个升级后的p，比o更强大。
+                    }
+
+                    var p1 = f(o1);
+                    console.log(p1);
+                    console.log(p1.name);
+                    p1.sayHello();
+
+                    寄生式继承的缺点：
+                        方法没有写到prototype上--函数不能复用而降低效率，消耗内存。
+
+
+                **********
+                6. 寄生组合式继承：
+                    较为理想的继承。
+                    通过借用构造函数来继承属性，通过原型链的混成形式来继承方法。
+                    思路：
+                        以超类的prototype原型为原型，创建一个新的对象，这个操作从而避免了调用超类构造函数来创造实例对象。
+                        然后将子类的prototype原型指向这个创建的某对象。从而整个过程就少调用了一次超类构造函数。    
+
+                    function inheritPrototpye(subType, superType) {
+                        var prototpye = Object.create(superType.prototype); // 使用寄生式继承超类的原型
+                        subType.prototype = prototpye;
+                    }
+
+                    调用这个函数，即可以替代超类构造函数的调用，Student.prototype = new People(); 
+            
+            ----------------------------
+
+            instanceof 运算符：
+                jack instanceof Student     // 用来检测某对象是不是某个类的实例
+                jack instanceof People
+                // 以上都为true，意思是jack是Student的实例，也是People的实例
+                
+                底层原理：检查Student.prototype和People.prototype属性是否在jack的原型链上（无论多少层）
+
+            
+            JavaScript的内置构造函数：
+                Array、Object、Function ---- 所有的数组、对象、函数字面量都是他们的实例
+                他们所有的方法都在prototype上。也可以自己去拓展方法
+
+                包装类：
+                    var o = new Number(3);      // Number {3}
+                    var s = new String('jack');     // String {'jack'}
+
+                    虽然o、s还是数字和字符串，但是new出来后的typeof 检测都是对象object。
+                    就是JS给我们包装了一层，包装成对象，冷知识。Number、String为包装类
+
+
+            ！！！！！！！！
+            重中之重：
+                万物皆为对象。所以
+                Object.prototype是万物原型链的终点。
+                    Object.prototype.__proto__ === null
+                        null为特殊的对象， null.__proto__ 会报错
+
+                Object构造函数，也可以看做是Function构造函数所new出来的。
+                    所以，Object.__proto__ === Function.prototype
+                    又因为，Function.prototype也是对象，Function.prototype.__proto__ === Object.prototype
+                    上面构成了三角关系，Object.__proto__.__proto__ === Object.prototype
+                
+                Function构造函数，同样也看做是Function构造函数自身所new出来
+                    所以，Function.__proto__ === Funciton.prototype
+
+                Function instanceof Object      // true  因为万物皆对象
+                Object instanceof Object        // true  因为万物皆对象
+                Object instanceof Function      // true  所以函数都Function构造函数的实例
+                Function instanceof Function    // true  包括Function自身
+        */      
+                
+                
+
+                
+
+    </script>
+
+</html>
+</body>

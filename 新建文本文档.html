@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my home</title>
+    <meta name="Keywords" content="1234">
+    <meta name="Description" content="my will, my hands">
+</head>
+<body>
+    <!-- ctrl + /   zhushi -->
+    hello!
+    <div>
+        <h1>my home</h1>
+    </div>
+        <h2>my love</h2>
+            <p>    aaaa&lt>p&gtaaaaa   &nbsp;&nbsp;aaaaaaaa</p>
+        <h2>my </h2>
+<!-- ul有type属性，控制点的样式，h5已经废弃，用css替代 -->
+    <ul>
+        <li>milk</li>
+        <li>
+            cofee
+            <p>dont buy black cofee</p>
+        </li>
+        <li>fruit</li>
+    </ul>
+
+    <ul>
+        <li>
+            <h2>beijing</h2>
+            <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+            </ul>
+        </li>
+        <li>
+            <h2>maoming</h2>
+            <ul>
+                <li>1</li>
+                <li>2</li>
+            </ul>
+        </li>
+    </ul>
+    <h1>rank</h1>
+    <!-- 有属性 type start reversed（倒序） -->
+    <ol>
+        <li>jack</li>
+        <li>jack2</li>
+    </ol>
+    <!-- 定义列表dl -->
+    <dl>
+        <dt>html</dt>
+        <dd>超文本标记语言</dd>
+        <dt>css</dt>
+        <dd>层叠式样式表</dd>
+        <dt>javascript</dt>
+        <dd>js脚本程序</dd>
+    </dl>
+    <!-- a标签title 属性是鼠标悬停文本 target="_blank目标为新的窗口，跳转-->
+    <a href="http://www.imooc.com" title="慕课网" target="_blank">学习it技术</a>
+    <!-- id可以为网页的锚点，在网址后面输入#加id的值，即可跳到页面锚点处 -->
+    <!-- #top为h5自带锚点，顶部 -->
+    <a href="#top">返回顶部</a>
+    <p><a href="mailto:123345@qq.com">邮件链接，给我发文件</a></p>
+    <p><a href="tel:12435321">电话链接，给我打电话</a></p>
+
+    <!-- <audio controls autoplay loop src="">   controls属性 显示播放控件；autoplay为自动播放；loop为循环播放
+        抱歉,你的浏览器不支持audio标签,请升级浏览器    （这里为不兼容audio标签的显示文字，兼容IE9）
+    </audio> -->
+    <!-- <video>和上面相似 -->
+
+    <!-- 大纲标签 -->
+    <!-- 网页的头部 -->
+    <header>
+        <div class="logo">网页的logo</div>
+        <nav>
+            导航条
+        </nav>
+    </header>
+    <!-- 网页的核心 -->
+    <main>
+        <!-- 广告 -->
+        <aside>我是广告</aside>
+        <!-- 文章内容 -->
+        <article>
+            <h1>文章的标题</h1>
+            <section>部分1</section>
+            <section>部分2</section>
+            <section>部分3</section>
+        </article>
+    </main>
+    <!-- 页脚 -->
+    <footer></footer>
+
+
+    <!-- <span></span>   <b>加粗</b>  <u>下划线</u>   <i>字体倾斜</i>  <strong>特别强调</strong>  <em>倾斜强调</em>    -->
+
+    <p>
+        beijingbeijingbeijingbeijingbeijing
+    </p>
+    <p>
+        <!-- figure 表示独立的内容，不影响主体-->
+        <figure>
+            <img src="" alt="">
+            <figcaption>BJ</figcaption>
+        </figure>
+        <figure>
+            <img src="" alt="">
+            <figcaption>bj</figcaption>
+        </figure>
+    </p>
+    <!-- 在使用标签时，只考虑其语义就行！！！！ -->
+
+
+
+    <form action="" method="post">
+        <input type="text" value="初始值" disabled>
+        <input type="text" placeholder="提示文本，并不是值">
+        <input type="radio" name="sex" value="男" checked>男
+        <input type="radio" name="sex" value="女">女
+        <!-- radio为单选按钮，像收音机一样，按下一个键，其他键弹起，但必须分组name属性，同组才有这种效果。value是提交的值，checked为默认按钮 -->
+        <!-- 使用label标签可以，点击字而选中按钮 -->
+        <input type="radio" name="sex" id="nannv">
+        <label for="nannv">男女</label>
+
+        <label >
+            <input type="radio" name="sex">renyao
+        </label>
+        <!-- checkbox 为复选框，和单选类似 -->
+        <label>
+            <input type="checkbox" name="qiu" value="football">football
+        </label>
+        <label>
+            <input type="checkbox" name="qiu" value="basketball">basketball
+        </label>
+        <label>
+            <input type="checkbox" name="qiu" value="ball">ball
+        </label>
+        <!-- password为密码框，有星号隐藏 -->
+        <input type="password">
+
+        <!-- 下拉菜单 -->
+        <select>
+            <option value="alipay">支付宝</option>
+            <option value="wx">微信</option>
+            <option value="others">其他</option>
+        </select>
+
+        <!-- textarea 为多行文本框，即文本区域，留言框 -->
+        <textarea name="" id="" cols="30" rows="10"></textarea>
+
+        <button>普通按钮</button>
+        <input type="button" value="普通按钮">value值为按钮名称,无默认
+        <input type="submit" value="提交表单">默认 提交
+        <input type="reset" value="重置表单">默认 重置
+
+        <!-- h5中type的新值，color，date，time，email有校验，number，range，search，url有校验， -->
+        <!-- 还有required属性，必填校验 -->
+
+
+
+        <!-- datalist数据列表 备选项智能感应，百度搜索 
+            必须有id，且与input的list属性绑定
+        -->
+        <p>
+            省份：
+            <input type="text" list="province-list">
+            <datalist id="province-list">
+                <option value="山西">
+                <option value="山东">
+                <option value="广西">
+                <option value="广东">
+                <option value="湖南">
+                <option value="湖北">
+                <option value="河南">
+                <option value="河北">
+            </datalist>
+        </p>
+    </form>
+
+
+
+    <table border="1">
+        <caption>我是表格的标题</caption>
+        <tr>
+            <!-- th为标题小格，居中加粗 -->
+            <th>第一季度</th>
+            <th>第二季度</th>
+            <th>第三季度</th>
+            <th>第四季度</th>
+        </tr>
+        <tr>
+            <td>a</td>
+            <td>b</td>
+            <td>c</td>
+            <td>d</td>
+        </tr>
+        <tr>
+            <td>e</td>
+            <td>f</td>
+            <td>g</td>
+            <td>h</td>
+        </tr>
+        <tr>
+            <td>i</td>
+            <td>j</td>
+            <td>k</td>
+            <td>l</td>
+        </tr>
+    </table>
+    <!-- colspan属性为跨列度，rowspan为跨行度 -->
+
+
+    <table border="1" width="700">
+        <thead>
+            <tr>
+                <th></th>
+                <th colspan="2">第一季度</th>
+                <th colspan="2">第二季度</th>
+                <th colspan="2">第三季度</th>
+                <th colspan="2">第四季度</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>国内</th>
+                <th>国外</th>
+                <th>国内</th>
+                <th>国外</th>
+                <th>国内</th>
+                <th>国外</th>
+                <th>国内</th>
+                <th>国外</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>phone</th>
+                <td>12345678</td>
+                <td>12345678</td>
+                <td>12345678</td>
+                <td>12345678</td>
+                <td>12345678</td>
+                <td>12345678</td>
+                <td>12345678</td>
+                <td>12345678</td>
+            </tr>
+            <tr>
+                <th>food</th>
+                <td>12345678</td>
+                <td>12345678</td>
+                <td>12345678</td>
+                <td>12345678</td>
+                <td>12345678</td>
+                <td>12345678</td>
+                <td>12345678</td>
+                <td>12345678</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th rowspan="2">sum</th>
+                <td>369</td>
+                <td>369</td>
+                <td>369</td>
+                <td>369</td>
+                <td>369</td>
+                <td>369</td>
+                <td>369</td>
+                <td>369</td>
+            </tr>
+            <tr>
+                <td colspan="2">738</td>
+                <td colspan="2">738</td>
+                <td colspan="2">738</td>
+                <td colspan="2">738</td>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+</html>

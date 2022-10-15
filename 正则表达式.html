@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        span {
+            color: red;   
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p>
+            请输入你的姓名:
+            <input type="text">
+            <span>请输入合格的姓名</span>
+        </p>
+    </div>
+    <script>
+        /* 
+            正则表达式：
+                按位匹配！
+
+                第一个demo：
+                    // 以b开头，e结尾，中间是7位数字
+                    var regexp = /^b\d{7}e$/;
+
+                    var str1 = 'b1451531e';
+                    var str2 = 'sdafe2353';
+
+                    console.log(regexp.test(str1));     // true
+                    console.log(regexp.test(str2));     // false
+
+                正则表达式的创建：
+                    1. /内容/
+                    2. new RegExp('内容')
+                    注：typeof检测类型为object
+
+                    var regexp1 = /^\d{7}$/;
+                    var regexp2 = new RegExp('^\\d{7}$');   // 由于字符串里面反斜杆需要转义\\为一个\，所以，会有一定混淆
+            
+                元字符：
+                    ^   ----  匹配开头
+                    $   ----  匹配结尾
+
+                    \d  ----  匹配一个数字
+                    \D  ----  匹配一个非数字字符
+                    \w  ----  匹配一个单字字符（字母、数字或者下划线）    
+                    \W  ----  匹配一个非单字字符
+                    \s  ----  匹配一个空白字符，包括空格、制表符和换行符
+                    .   ----  任意字符
+
+                练习：
+                运单号形式 123-4232-125
+                var regexp = /^\d\d\d-\d\d\d\d-\d\d\d$/;
+                秘钥形式 □□□-□□□□-□□□   □表示字母数字或者下划线
+                var regexp = /^\w\w\w-\w\w\w\w-\w\w\w$/;
+
+                备：不管一个符号有没有特殊意义，都可以加一个\转义符，确保就是符号本身
+                var regexp = /^\d\d\d\.\d\d\^\d\d\#\d\d$/;
+
+                方括号表示法：
+                    [0-9]   =====   等价于 \d
+                    [^0-9]   =====   等价于 \D
+                    [A-Za-z0-9_]   =====   等价于 \w
+                    [^A-Za-z0-9_]   =====   等价于 \W
+
+                    注意，这里^表示否定，并不是元字符匹配开头。
+
+                练习：
+                    学号规定：第一位是字母，b表示本科生，y表示研究生，后面是7位数字
+                    var regexp = /^[by]\d{7}$/;
+
+                    验证某字符串是否是5位字母，大小写均可
+                    var regexp = /^[A-Za-z]{5}$/
+                    
+                    验证某字符串是否是5位，且仅有小写字母、点构成
+                    var regexp = /^[a-z\.]{5}$/     
+                                注意转义符\的使用
+
+                    验证某字符串是否是4位小写字母，且最后一位不能是m字母
+                    var regexp = /^[a-z]{3}[a-z^m]$/ 错了
+                                    [a-z^m]这种写法是错误的，因为[]里面的关系都是或者，这样就表示 字母a-z或者除了字母m其他所有字符。
+                    正确写法：
+                        var regexp = /^[a-z]{3}[a-ln-z]$/
+
+                量词：
+                    *   ----  匹配前一个表达式0次或者多次。等价于{0, }
+                    +   ----  匹配前一个表达式1次或者多次。等价于{1, }
+                    ？  ----  匹配前一个表达式0次或者1次。等价于{0,1}
+
+                    {n}  ---  匹配前一个字符刚好出现了n次。
+                    {n, } --  匹配前一个字符至少出现了n次
+                    {n,m} --  匹配前面的字符至少n次，最多m次。
+
+                练习：
+                    验证是否符号手机号码规则，以1开头，11位数字
+                    /^1\d{10}$/.test(str);
+                    以字母开头，中间任意位数字（最少1位），字母结尾
+                    /^[A-Za-z]\d+[a-zA-Z]$/.test(str)
+                    验证字符串是否符合网址规则，www.开头，中间任意位（最少1位）字符（字母数字下划线）, .com或者.com.cn结尾
+                    /^w{3}\.\w+\.com(\.cn)?$/.test(str)
+                                注意圆括号()的使用，作为整体再？可有可无
+
+                修饰符（标志）：
+                    用于使用正则表达式实现高级搜索
+                    g  ----  全局搜索
+                    i  ----  不区分大小写搜索
+
+                    var re = /m/gi;
+                    var reg = new RegExp('m', 'gi');
+
+                
+                正则表达式相关方法：
+                    regexp.test(str)  ----  检测str是否符合regexp规则，返回布尔值
+                    ******************
+                    regexp.exec(str)  ----  搜索对应符合regexp规则对应的字符串，返回结果数组或者没找到返回null
+                                            一般匹配g全局搜索使用，虽然还是返回第一次找到后的结果，
+                                            但它会保存记忆上次搜索后index所在的位置，当下次再次调用搜索时，就会从上次所在的位置开始搜索。
+                                            当搜索完整个字符串，index在最后，会返回null，并且index又回到开头，如此循环
+
+
+                    // 寻找出所有的数字。
+                    var str = 'sdfwel23424kjl23k21lj51';
+
+                    var regexp = /\d+/g;     // +表示贪婪的，尽可能多的搜索匹配
+                                            // 配合g全局搜索使用，不然找到23424便会停止，且搜索index回到开头，下次调用还是开头，如此循环
+                    
+                    console.log(regexp.exec(str));
+                    // ['23424', index: 6, input: 'sdfwel23424kjl23k21lj51', groups: undefined]
+                    console.log(regexp.exec(str));
+                    // ['23', index: 14, input: 'sdfwel23424kjl23k21lj51', groups: undefined]
+                    console.log(regexp.exec(str));
+                    // ['21', index: 17, input: 'sdfwel23424kjl23k21lj51', groups: undefined]
+                    console.log(regexp.exec(str));
+                    // ['51', index: 21, input: 'sdfwel23424kjl23k21lj51', groups: undefined]
+                    console.log(regexp.exec(str));
+                    // null
+
+                    // 又回到开头
+                    console.log(regexp.exec(str));
+                    // ['23424', index: 6, input: 'sdfwel23424kjl23k21lj51', groups: undefined]
+
+                    ******
+                    以上可以用while循环实现:
+                        var str = 'sdfwel23424kjl23k21lj51';
+                        var regexp = /\d+/g;
+
+                        var result;
+                        while(result = regexp.exec(str)) {
+                            console.log(result);
+                        }
+
+                
+                可以使用正则表达式的 字符串方法 ：
+                    1. str.search()方法      返回首次出现下标
+                        var str = 'sdf235sdfaa235sd223sd1';
+                        console.log(str.search(/\d+/g));    // 3 首次出现的下标
+                        console.log(str.search(/m/g));      // -1 没有查找到
+
+                    2. str.match()方法  ----  查找匹配，常用    返回结果数组
+                        console.log(str.match(/\d+/g));     // ['235', '235', '223', '1']
+
+                    3. str.replace()方法  替换
+                        console.log(str.replace(/\d+/g, '*'));  // sdf*sdfaa*sd*sd*
+                        
+                    4. str.split()方法  拆分
+                        console.log(str.split(/\d+/g));     // ['sdf', 'sdfaa', 'sd', 'sd', '']
+
+                
+                正则表达式的应用：
+                    正则表达不会写的，不想写，百度即可
+                    
+                    检测姓名表单：
+                        /^[\u4E00-\u9FA5]{2,4}$/
+                    
+                    例子如下↓↓↓
+        */
+    
+        var inp = document.getElementsByTagName('input')[0];
+        var span = document.getElementsByTagName('span')[0];
+
+        inp.onblur = function () {
+            // 得到姓名
+            var name = inp.value; 
+
+            if (/^[\u4E00-\u9FA5]{2,4}$/.test(name)) {
+                span.style.display = 'none';
+            } else {
+                span.style.display = 'inline';
+            }
+        }
+
+        
+
+        
+        
+        
+    </script>
+</body>
+</html>
