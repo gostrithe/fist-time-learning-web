@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100个红绿灯实例</title>
+</head>
+
+<body>
+    <div id="box"></div>
+    <script>
+        var box = document.getElementById('box');
+
+        // 定义红绿灯TrafficLight这里大类。
+        function TrafficLight() {
+            // 他有颜色属性和init()初始化方法、bindEvent()绑定事件方法、和changeColor()改变颜色方法
+            this.color = 1;
+            this.init();
+            this.bindEvent();
+            // 让实例一开始的color属性为1，并且初始化和绑定事件。
+        };
+
+        // 将类的方法写在原型上
+        TrafficLight.prototype.init = function () {
+            // 创建一个新的孤儿节点，作为实例对象dom属性的值。自己的dom。
+            this.dom = document.createElement('img');
+            // 节点上树。
+            box.appendChild(this.dom);  
+            // 修改img的src属性，显示初始颜色对应的图片。
+            this.dom.src = 'img/红绿灯' + this.color + '.jpg';
+        };
+
+        // 将类的方法写在原型上
+        TrafficLight.prototype.bindEvent = function () {    // 这里this为实例对象
+            // 备份上下文
+            var self = this;    // self就为实例对象了
+            this.dom.onclick = function () {    // 这里this为this.dom
+                // 绑定事件监控点击，点击后调用改变颜色方法changeColor()
+                self.changeColor();
+            };
+        };
+        
+        // 将类的方法写在原型上
+        TrafficLight.prototype.changeColor = function () {
+            // 改变实例自己的color属性，实现‘自治’，自己管理自己
+            this.color++;
+            if (this.color == 4) this.color = 1;
+            // color变化修改图片。
+            this.dom.src = 'img/红绿灯' + this.color + '.jpg';
+        };
+
+
+        var count = 100;
+        while (count--) {   // 利用0为false的while循环
+            new TrafficLight();     // 生成100个独立的红绿灯实例对象。
+        };
+    </script>
+</body>
+
+</html>
